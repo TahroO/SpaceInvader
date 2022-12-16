@@ -1,0 +1,84 @@
+package game;
+
+import java.awt.*;
+
+/**
+ * Base class for all game objects.
+ */
+abstract public class GameObject {
+    /** Object's current x and y position. */
+    protected int x, y;
+    /** Object dimension aka object's width and height. */
+    protected Dimension dimension;
+    /** Sprite. */
+    protected Image sprite;
+
+    /**
+     * Constructs a new GameObject instance with a given
+     * initial position.
+     *
+     * @param x
+     *   Initial x-position.
+     * @param y
+     *   Initial y-position.
+     */
+    public GameObject(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.dimension = new Dimension(width, height);
+    }
+
+    /**
+     * Gets this GameObject's x-position.
+     *
+     * @return GameObject's x-position.
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Gets this GameObject's y-position.
+     *
+     * @return GameObject's y-position.
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * Gets this GameObject's dimension.
+     *
+     * @return GameObject's dimension.
+     */
+    public Dimension getDimension() { return dimension; }
+
+    /**
+     * Updates the GameObject's status.
+     *
+     * @param lastFrameDelta
+     *   Milliseconds passed since last frame.
+     */
+    abstract public void update(int lastFrameDelta);
+
+    /**
+     * Draws ths GameObject.
+     *
+     * @param g2d
+     *   AWT 2D graphics object.
+     */
+    abstract public void draw(Graphics2D g2d);
+
+    /**
+     * Checks if this GameObject collides with another one.
+     *
+     * @param other
+     *   The other GameObject.
+     * @return
+     *   True, if collision has been detected. False otherwise.
+     */
+    public boolean detectCollision(GameObject other) {
+        return false;
+    }
+
+}
