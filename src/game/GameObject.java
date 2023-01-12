@@ -56,10 +56,10 @@ abstract public class GameObject {
     /**
      * Updates the GameObject's status.
      *
-     * @param lastFrameDelta
+     * @param timeDelta
      *   Milliseconds passed since last frame.
      */
-    abstract public void update(int lastFrameDelta);
+    abstract public void update(int timeDelta);
 
     /**
      * Draws ths GameObject.

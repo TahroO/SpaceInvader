@@ -16,8 +16,8 @@ public class Bullet extends GameObject {
     }
 
     @Override
-    public void update(int lastFrameDelta) {
-        int t = (int) Math.round((vy / 1000d) * lastFrameDelta);
+    public void update(int timeDelta) {
+        int t = (int) Math.round((vy / 1000d) * timeDelta);
         y -= t;
     }
 
