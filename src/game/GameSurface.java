@@ -115,6 +115,7 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
             if (alien.detectCollision(bullet)) {
                 System.out.println("Collision");
                 gameObjects.remove(bullet);
+                bullet = null;
                 aliens.remove(alien);
                 gameObjects.remove(alien);
                 break;
