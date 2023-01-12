@@ -1,5 +1,7 @@
 package game;
 
+import game.objects.Alien;
+
 import java.awt.*;
 
 /**
@@ -9,7 +11,7 @@ abstract public class GameObject {
     /** Object's current x and y position. */
     protected int x, y;
     /** Object dimension aka object's width and height. */
-    protected Dimension dimension;
+    protected Dimension size;
     /** Sprite. */
     protected Image sprite;
 
@@ -25,7 +27,7 @@ abstract public class GameObject {
     public GameObject(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
-        this.dimension = new Dimension(width, height);
+        this.size = new Dimension(width, height);
     }
 
     /**
@@ -51,7 +53,7 @@ abstract public class GameObject {
      *
      * @return GameObject's dimension.
      */
-    public Dimension getDimension() { return dimension; }
+    public Dimension getSize() { return size; }
 
     /**
      * Updates the GameObject's status.
@@ -69,6 +71,12 @@ abstract public class GameObject {
      */
     abstract public void draw(Graphics2D g2d);
 
+    public Rectangle getBounds()
+    {
+        return new Rectangle(x, y, size.width, size.height);
+    }
+
+
     /**
      * Checks if this GameObject collides with another one.
      *
@@ -78,7 +86,6 @@ abstract public class GameObject {
      *   True, if collision has been detected. False otherwise.
      */
     public boolean detectCollision(GameObject other) {
-        return false;
+        return this.getBounds().intersects(other.getBounds());
     }
-
 }

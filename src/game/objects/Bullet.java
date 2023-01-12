@@ -24,6 +24,6 @@ public class Bullet extends GameObject {
     @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(Color.PINK);
-        g2d.fillRect(x, y, dimension.width, dimension.height);
+        g2d.fillRect(x, y, size.width, size.height);
     }
 }

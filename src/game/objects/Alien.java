@@ -27,12 +27,14 @@ public class Alien extends GameObject {
     @Override
     public void update(int timeDelta) {
         int t = (int) Math.round((vx / 1000d) * timeDelta);
-        x += dir * t;
         if (x > maxX) {
             dir = -1;
+            y += ALIEN_HEIGHT;
         } else if (x < minX) {
             dir = 1;
+            y += ALIEN_HEIGHT;
         }
+        x += dir * t;
     }
 
     @Override
@@ -41,5 +43,4 @@ public class Alien extends GameObject {
         g2d.fillRect(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
 
     }
-
 }
