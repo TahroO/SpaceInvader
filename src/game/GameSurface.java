@@ -27,9 +27,9 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
     private Font font;
     private long frameCounter;
     private long lastFrameTimeMs;
-    private ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private final ArrayList<GameObject> gameObjects = new ArrayList<>();
     private boolean spacePressed;
-    private ArrayList<Alien>aliens = new ArrayList<>();
+    private final ArrayList<Alien> aliens = new ArrayList<>();
 
     /**
      * Creates a new GameSurface instance.
@@ -55,14 +55,13 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         int spacing = Alien.ALIEN_WIDTH;
         int stride = Alien.ALIEN_WIDTH + spacing;
         int maxDistance = getWidth() - stride * lineSize + spacing - 10;
-        for (int i = 1; i <= 50; i++)
-        {
+        for (int i = 1; i <= 50; i++) {
             int x = 10 + (i % lineSize) * stride;
             int maxX = x + maxDistance;
             Alien alien = new Alien(x, y, maxX);
             gameObjects.add(alien);
             aliens.add(alien);
-            if(i % lineSize == 0){
+            if (i % lineSize == 0) {
                 y = y + (Alien.ALIEN_HEIGHT + Alien.ALIEN_HEIGHT);
             }
         }
@@ -108,10 +107,10 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
     }
 
     private void detectCollisions() {
-        if (bullet  == null) {
+        if (bullet == null) {
             return;
         }
-        for(Alien alien : aliens) {
+        for (Alien alien : aliens) {
             if (alien.detectCollision(bullet)) {
                 System.out.println("Collision");
                 gameObjects.remove(bullet);

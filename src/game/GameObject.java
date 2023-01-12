@@ -1,28 +1,30 @@
 package game;
 
-import game.objects.Alien;
-
 import java.awt.*;
 
 /**
  * Base class for all game objects.
  */
 abstract public class GameObject {
-    /** Object's current x and y position. */
+    /**
+     * Object's current x and y position.
+     */
     protected int x, y;
-    /** Object dimension aka object's width and height. */
+    /**
+     * Object dimension aka object's width and height.
+     */
     protected Dimension size;
-    /** Sprite. */
+    /**
+     * Sprite.
+     */
     protected Image sprite;
 
     /**
      * Constructs a new GameObject instance with a given
      * initial position.
      *
-     * @param x
-     *   Initial x-position.
-     * @param y
-     *   Initial y-position.
+     * @param x Initial x-position.
+     * @param y Initial y-position.
      */
     public GameObject(int x, int y, int width, int height) {
         this.x = x;
@@ -53,26 +55,25 @@ abstract public class GameObject {
      *
      * @return GameObject's dimension.
      */
-    public Dimension getSize() { return size; }
+    public Dimension getSize() {
+        return size;
+    }
 
     /**
      * Updates the GameObject's status.
      *
-     * @param timeDelta
-     *   Milliseconds passed since last frame.
+     * @param timeDelta Milliseconds passed since last frame.
      */
     abstract public void update(int timeDelta);
 
     /**
      * Draws ths GameObject.
      *
-     * @param g2d
-     *   AWT 2D graphics object.
+     * @param g2d AWT 2D graphics object.
      */
     abstract public void draw(Graphics2D g2d);
 
-    public Rectangle getBounds()
-    {
+    public Rectangle getBounds() {
         return new Rectangle(x, y, size.width, size.height);
     }
 
@@ -80,10 +81,8 @@ abstract public class GameObject {
     /**
      * Checks if this GameObject collides with another one.
      *
-     * @param other
-     *   The other GameObject.
-     * @return
-     *   True, if collision has been detected. False otherwise.
+     * @param other The other GameObject.
+     * @return True, if collision has been detected. False otherwise.
      */
     public boolean detectCollision(GameObject other) {
         return this.getBounds().intersects(other.getBounds());

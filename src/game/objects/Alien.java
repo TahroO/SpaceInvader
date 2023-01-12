@@ -1,11 +1,7 @@
 package game.objects;
 
 import game.GameObject;
-import game.GameSurface;
-
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class Alien extends GameObject {
 
