@@ -1,5 +1,6 @@
 package game;
 
+import game.objects.Alien;
 import game.objects.Bullet;
 import game.objects.Gun;
 
@@ -28,6 +29,7 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
     private long lastFrameTimeMs;
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
     private boolean spacePressed;
+    private ArrayList<Alien>aliens = new ArrayList<>();
 
     /**
      * Creates a new GameSurface instance.
@@ -48,6 +50,15 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         // Create game objects.
         gun = new Gun();
         hud = new GameHud();
+        int y = 100;
+        int lineSize = 10;
+        for (int i = 1; i <= 50; i++)
+        {
+            gameObjects.add(new Alien(10 + (i % lineSize) * (Alien.ALIEN_WIDTH + Alien.ALIEN_WIDTH), y));
+            if(i % lineSize == 0){
+                y = y + (Alien.ALIEN_HEIGHT + Alien.ALIEN_HEIGHT);
+            }
+        }
     }
 
     /**
@@ -101,6 +112,10 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         gameObjects.forEach(gameObject -> gameObject.draw(g2d));
         gun.draw(g2d);
         hud.draw(g2d);
+/*        for(int k = 0; k < aliens.size(); k++)
+        {
+            aliens.get(k).draw(g2d);
+        }*/
     }
 
     @Override
@@ -134,5 +149,4 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
             spacePressed = false;
         }
     }
-
 }
