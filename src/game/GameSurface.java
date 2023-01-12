@@ -136,10 +136,6 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         gameObjects.forEach(gameObject -> gameObject.draw(g2d));
         gun.draw(g2d);
         hud.draw(g2d);
-/*        for(int k = 0; k < aliens.size(); k++)
-        {
-            aliens.get(k).draw(g2d);
-        }*/
     }
 
     @Override
