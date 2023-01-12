@@ -52,9 +52,14 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         hud = new GameHud();
         int y = 100;
         int lineSize = 10;
+        int spacing = Alien.ALIEN_WIDTH;
+        int stride = Alien.ALIEN_WIDTH + spacing;
+        int maxDistance = getWidth() - ((stride * lineSize - spacing) -10);
         for (int i = 1; i <= 50; i++)
         {
-            gameObjects.add(new Alien(10 + (i % lineSize) * (Alien.ALIEN_WIDTH + Alien.ALIEN_WIDTH), y));
+            int x = 10 + (i % lineSize) * stride;
+            int maxX = x + maxDistance;
+            gameObjects.add(new Alien(x, y, maxX));
             if(i % lineSize == 0){
                 y = y + (Alien.ALIEN_HEIGHT + Alien.ALIEN_HEIGHT);
             }
