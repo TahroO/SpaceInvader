@@ -62,7 +62,7 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         int spacing = (int) Math.round(Alien.ALIEN_WIDTH * 0.75);
         int rowHeight = Alien.ALIEN_HEIGHT + spacing;
         int stride = Alien.ALIEN_WIDTH + spacing;
-        int maxDistance = getWidth() - stride * COLS + spacing - 10;
+        int maxDistance = getWidth() - (stride * COLS - spacing) - (2 * margin);
         for (int row = 0; row < ROWS; row++) {
             int y = marginTop + row * rowHeight;
             for (int col = 0; col < COLS; col++) {

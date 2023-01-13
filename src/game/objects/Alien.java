@@ -9,14 +9,14 @@ public class Alien extends GameObject {
     public static final int ALIEN_HEIGHT = 20;
     protected int dir = 1;
     // PX per second.
-    private int vx = 20;
+    private int vx = 27;
     private int minX;
     private int maxX;
 
     private int frame = 0;
 
     private long timePassed = 0;
-    private double stepsPerSecond = 2;
+    private double stepsPerSecond = 3;
 
 
     public Alien(int x, int y, int maxX) {
