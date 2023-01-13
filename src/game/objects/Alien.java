@@ -8,10 +8,16 @@ public class Alien extends GameObject {
     public static final int ALIEN_WIDTH = 20;
     public static final int ALIEN_HEIGHT = 20;
     protected int dir = 1;
-    // PX per second;
+    // PX per second.
     private int vx = 50;
     private int minX;
     private int maxX;
+
+    private int frame = 0;
+
+    private double step = 0;
+    private int stepsPerSecond = 2;
+
 
     public Alien(int x, int y, int maxX) {
         super(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
@@ -22,11 +28,15 @@ public class Alien extends GameObject {
 
     @Override
     public void update(int timeDelta) {
-        int t = (int) Math.round((vx / 1000d) * timeDelta);
-        if (x > maxX) {
+        step += (vx / 1000d) * timeDelta;
+        if((int) Math.round(step) % (vx / stepsPerSecond) != 0){
+            return;
+        }
+        int t = vx / stepsPerSecond;
+        if (dir == 1 && x + t > maxX) {
             dir = -1;
             y += ALIEN_HEIGHT;
-        } else if (x < minX) {
+        } else if (dir == -1 && x - t < minX) {
             dir = 1;
             y += ALIEN_HEIGHT;
         }
