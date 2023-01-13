@@ -18,8 +18,8 @@ import java.util.Map;
 public class GameSurface extends JPanel implements ActionListener, KeyListener {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
-    public static final int ROWS = 1;
-    public static final int COLS = 1;
+    public static final int ROWS = 4;
+    public static final int COLS = 10;
 
     private final int DELAY = 16;
     private Timer timer;
@@ -58,18 +58,18 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
 
     private void createAliens() {
         int margin = 15;
-        int spacing = Alien.ALIEN_WIDTH / 2;
+        int marginTop = 80;
+        int spacing = (int) Math.round(Alien.ALIEN_WIDTH * 0.75);
         int rowHeight = Alien.ALIEN_HEIGHT + spacing;
         int stride = Alien.ALIEN_WIDTH + spacing;
         int maxDistance = getWidth() - stride * COLS + spacing - 10;
-        for(int row = 0; row < ROWS; row++) {
-            int y = rowHeight + row * rowHeight;
-            for(int col = 0; col < COLS; col++) {
+        for (int row = 0; row < ROWS; row++) {
+            int y = marginTop + row * rowHeight;
+            for (int col = 0; col < COLS; col++) {
                 int x = margin + col * stride;
                 Alien alien = new Alien(x, y, x + maxDistance);
                 gameObjects.add(alien);
                 aliens.add(alien);
-
             }
         }
     }
@@ -106,7 +106,7 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
             gameObjects.remove(bullet);
             bullet = null;
         }
-        gameObjects.forEach(gameObject ->  gameObject.update(lastFrameDelta));
+        gameObjects.forEach(gameObject -> gameObject.update(lastFrameDelta));
         gun.update(lastFrameDelta);
         detectCollisions();
         hud.update(lastFrameDelta);

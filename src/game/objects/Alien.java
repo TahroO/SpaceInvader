@@ -37,8 +37,9 @@ public class Alien extends GameObject {
             } else if (dir == -1 && x - stride < minX) {
                 dir = 1;
                 y += ALIEN_HEIGHT;
+            } else {
+                x += dir * stride;
             }
-            x += dir * stride;
 
             timePassed = (int) (timePassed - 1000d / stepsPerSecond);
         }
