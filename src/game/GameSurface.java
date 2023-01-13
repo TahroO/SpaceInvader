@@ -18,7 +18,10 @@ import java.util.Map;
 public class GameSurface extends JPanel implements ActionListener, KeyListener {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
-    public final int DELAY = 16;
+    public static final int ROWS = 1;
+    public static final int COLS = 1;
+
+    private final int DELAY = 16;
     private Timer timer;
     private final RenderingHints renderingHints;
     private final Gun gun;
@@ -50,19 +53,23 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         // Create game objects.
         gun = new Gun();
         hud = new GameHud();
-        int y = 100;
-        int lineSize = 10;
-        int spacing = Alien.ALIEN_WIDTH;
+        createAliens();
+    }
+
+    private void createAliens() {
+        int margin = 15;
+        int spacing = Alien.ALIEN_WIDTH / 2;
+        int rowHeight = Alien.ALIEN_HEIGHT + spacing;
         int stride = Alien.ALIEN_WIDTH + spacing;
-        int maxDistance = getWidth() - stride * lineSize + spacing - 10;
-        for (int i = 1; i <= 50; i++) {
-            int x = 10 + (i % lineSize) * stride;
-            int maxX = x + maxDistance;
-            Alien alien = new Alien(x, y, maxX);
-            gameObjects.add(alien);
-            aliens.add(alien);
-            if (i % lineSize == 0) {
-                y = y + (Alien.ALIEN_HEIGHT + Alien.ALIEN_HEIGHT);
+        int maxDistance = getWidth() - stride * COLS + spacing - 10;
+        for(int row = 0; row < ROWS; row++) {
+            int y = rowHeight + row * rowHeight;
+            for(int col = 0; col < COLS; col++) {
+                int x = margin + col * stride;
+                Alien alien = new Alien(x, y, x + maxDistance);
+                gameObjects.add(alien);
+                aliens.add(alien);
+
             }
         }
     }
@@ -99,7 +106,7 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
             gameObjects.remove(bullet);
             bullet = null;
         }
-        gameObjects.forEach(gameObject -> gameObject.update(lastFrameDelta));
+        gameObjects.forEach(gameObject ->  gameObject.update(lastFrameDelta));
         gun.update(lastFrameDelta);
         detectCollisions();
         hud.update(lastFrameDelta);
