@@ -3,6 +3,7 @@ package game;
 import game.objects.Alien;
 import game.objects.Bullet;
 import game.objects.Gun;
+import game.objects.Spaceship;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 public class GameSurface extends JPanel implements ActionListener, KeyListener {
     public static final int WIDTH = 800;
@@ -24,19 +26,25 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
     private final int DELAY = 16;
     private Timer timer;
     private final RenderingHints renderingHints;
+    private Font font;
+    private boolean spacePressed;
+    private final Random rng = new Random();
+
+    // Game objects.
     private final Gun gun;
     private final GameHud hud;
     private Bullet bullet;
-    private Font font;
+    private Spaceship ship;
+    private final ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private final ArrayList<Alien> aliens = new ArrayList<>();
+
     private long frameCounter;
     private long lastFrameTimeMs;
-    private final ArrayList<GameObject> gameObjects = new ArrayList<>();
-    private boolean spacePressed;
-    private final ArrayList<Alien> aliens = new ArrayList<>();
     private int points;
     private int round;
     private int alienVx = 27;
     private double alienSPS = 3;
+    private long nextShipTimeMs;
 
     /**
      * Creates a new GameSurface instance.
@@ -58,6 +66,7 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         gun = new Gun();
         hud = new GameHud();
         createAliens(alienVx, alienSPS);
+        setNextShipTime();
     }
 
     private void createAliens(int vx, double stepsPerSecond) {
@@ -76,6 +85,23 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
                 aliens.add(alien);
             }
         }
+    }
+
+    public void startShip() {
+        if (ship != null) {
+            return;
+        }
+
+        final int[] directions = {-1, 1};
+        int dir = directions[rng.nextInt(0, 2)];
+        int y = 35;
+        int vx = 10;
+        int x = -Spaceship.SHIP_WIDTH;
+        if (dir < 0) {
+            x = GameSurface.WIDTH + Spaceship.SHIP_WIDTH;
+        }
+        this.ship = new Spaceship(x, y, vx, dir);
+        gameObjects.add(this.ship);
     }
 
     /**
@@ -102,6 +128,8 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
     private void update() {
         long currentTimeMs = System.currentTimeMillis();
         int lastFrameDelta = (int) (currentTimeMs - lastFrameTimeMs);
+
+        // Update bullet.
         if (bullet == null && spacePressed) {
             bullet = new Bullet(gun.getX() + (Gun.GUN_WIDTH - Bullet.BULLET_WITH) / 2, gun.getY() - Bullet.BULLET_HEIGHT);
             gameObjects.add(bullet);
@@ -110,10 +138,30 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
             gameObjects.remove(bullet);
             bullet = null;
         }
+
+        // Start or update ship.
+        if (ship != null) {
+            ship.update(lastFrameDelta);
+            int shipX = ship.getX();
+            int shipDirection = ship.getDirection();
+            // Ship hat fenster verlassen?
+            if (shipX > GameSurface.WIDTH && shipDirection == 1
+                    || shipX < -Spaceship.SHIP_WIDTH && shipDirection == -1
+            ) {
+                gameObjects.remove(this.ship);
+                ship = null;
+                setNextShipTime();
+            }
+        } else if (currentTimeMs >= nextShipTimeMs) {
+            startShip();
+        }
+
         gameObjects.forEach(gameObject -> gameObject.update(lastFrameDelta));
         gun.update(lastFrameDelta);
         detectCollisions();
         hud.update(lastFrameDelta);
+
+        // Check next level.
         if (aliens.isEmpty()) {
             round += 1;
             hud.setRound(round);
@@ -126,9 +174,9 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         if (bullet == null) {
             return;
         }
+        // Check alien collision with bullet.
         for (Alien alien : aliens) {
             if (alien.detectCollision(bullet)) {
-                System.out.println("Collision");
                 gameObjects.remove(bullet);
                 bullet = null;
                 aliens.remove(alien);
@@ -138,6 +186,18 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
                 break;
             }
         }
+        // Check ship collision with bullet.
+        if (ship != null && bullet != null && ship.detectCollision(bullet)) {
+            gameObjects.remove(ship);
+            ship = null;
+            points += 50;
+            hud.setPoints(points);
+            setNextShipTime();
+        }
+    }
+
+    private void setNextShipTime() {
+        this.nextShipTimeMs = System.currentTimeMillis() + rng.nextLong(10000, 20001);
     }
 
     /**
