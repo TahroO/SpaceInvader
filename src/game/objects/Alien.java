@@ -13,16 +13,18 @@ public class Alien extends GameObject {
     private int minX;
     private int maxX;
 
-    private int frame = 0;
+    private int frame;
 
-    private long timePassed = 0;
+    private long timePassed;
     private double stepsPerSecond = 3;
 
 
-    public Alien(int x, int y, int maxX) {
+    public Alien(int x, int y, int maxX, int vx, double stepsPerSecond) {
         super(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
         this.maxX = maxX;
         this.minX = x;
+        this.vx = vx;
+        this.stepsPerSecond = stepsPerSecond;
 
     }
 

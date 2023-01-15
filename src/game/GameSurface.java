@@ -33,6 +33,10 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
     private final ArrayList<GameObject> gameObjects = new ArrayList<>();
     private boolean spacePressed;
     private final ArrayList<Alien> aliens = new ArrayList<>();
+    private int points;
+    private int round;
+    private int alienVx = 27;
+    private double alienSPS = 3;
 
     /**
      * Creates a new GameSurface instance.
@@ -53,10 +57,10 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         // Create game objects.
         gun = new Gun();
         hud = new GameHud();
-        createAliens();
+        createAliens(alienVx, alienSPS);
     }
 
-    private void createAliens() {
+    private void createAliens(int vx, double stepsPerSecond) {
         int margin = 15;
         int marginTop = 80;
         int spacing = (int) Math.round(Alien.ALIEN_WIDTH * 0.75);
@@ -67,7 +71,7 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
             int y = marginTop + row * rowHeight;
             for (int col = 0; col < COLS; col++) {
                 int x = margin + col * stride;
-                Alien alien = new Alien(x, y, x + maxDistance);
+                Alien alien = new Alien(x, y, x + maxDistance, vx, stepsPerSecond);
                 gameObjects.add(alien);
                 aliens.add(alien);
             }
@@ -110,6 +114,11 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
         gun.update(lastFrameDelta);
         detectCollisions();
         hud.update(lastFrameDelta);
+        if (aliens.isEmpty()) {
+            round += 1;
+            hud.setRound(round);
+            createAliens(alienVx += 15, alienSPS *= 1.25);
+        }
         lastFrameTimeMs = currentTimeMs;
     }
 
@@ -124,6 +133,8 @@ public class GameSurface extends JPanel implements ActionListener, KeyListener {
                 bullet = null;
                 aliens.remove(alien);
                 gameObjects.remove(alien);
+                points += 10;
+                hud.setPoints(points);
                 break;
             }
         }
