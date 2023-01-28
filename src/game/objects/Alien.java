@@ -3,22 +3,30 @@ package game.objects;
 import game.GameObject;
 import java.awt.*;
 
+/**
+ * Represents an Alien entity.
+ */
 public class Alien extends GameObject {
-
     public static final int ALIEN_WIDTH = 20;
     public static final int ALIEN_HEIGHT = 20;
-    protected int dir = 1;
+
+    private int dir = 1;
     // PX per second.
     private int vx = 27;
     private int minX;
     private int maxX;
-
     private int frame;
-
     private long timePassed;
     private double stepsPerSecond = 3;
 
-
+    /**
+     *  Creates a new Alien object.
+     * @param x X-position (in px) on panel.
+     * @param y Y-position (in px) on panel.
+     * @param maxX Max x-position (in px) after which alien needs to switch direction.
+     * @param vx Velocity in px per second.
+     * @param stepsPerSecond ...
+     */
     public Alien(int x, int y, int maxX, int vx, double stepsPerSecond) {
         super(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
         this.maxX = maxX;
