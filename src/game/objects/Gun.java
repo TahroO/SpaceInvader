@@ -1,12 +1,15 @@
 package game.objects;
 
 import game.GameObject;
-import game.GameSurface;
+import game.GameView;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Represents the player's gun.
+ */
 public class Gun extends GameObject implements KeyListener {
     public static final int GUN_WIDTH = 60;
     public static final int GUN_HEIGHT = 20;
@@ -30,8 +33,8 @@ public class Gun extends GameObject implements KeyListener {
      * Creates a new Gun instance.
      */
     public Gun() {
-        super((GameSurface.WIDTH - GUN_WIDTH) / 2, GameSurface.HEIGHT - 75, GUN_WIDTH, GUN_HEIGHT);
-        X_MAX = GameSurface.WIDTH - GUN_WIDTH;
+        super((GameView.WIDTH - GUN_WIDTH) / 2, GameView.HEIGHT - 75, GUN_WIDTH, GUN_HEIGHT);
+        X_MAX = GameView.WIDTH - GUN_WIDTH;
     }
 
     /**
@@ -74,6 +77,7 @@ public class Gun extends GameObject implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // TODO move to GameController.
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_RIGHT && !rightArrowKeyPressed) {
             dir = DIR_RIGHT;
@@ -86,6 +90,7 @@ public class Gun extends GameObject implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        // TODO move to GameController.
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_RIGHT) {
             rightArrowKeyPressed = false;

@@ -1,7 +1,7 @@
 package game.objects;
 
 import game.GameObject;
-import game.GameSurface;
+import game.GameView;
 
 import java.awt.*;
 
@@ -37,7 +37,7 @@ public class Spaceship extends GameObject {
         int vx = 133;
         int x = -Spaceship.SHIP_WIDTH;
         if (dir < 0) {
-            x = GameSurface.WIDTH + Spaceship.SHIP_WIDTH;
+            x = GameView.WIDTH + Spaceship.SHIP_WIDTH;
         }
         return new Spaceship(x, y, vx, dir);
     }

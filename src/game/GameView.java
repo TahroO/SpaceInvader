@@ -9,7 +9,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class GameSurface extends JPanel implements ActionListener {
+/**
+ * Game view takes care of drawing everything.
+ */
+public class GameView extends JPanel implements ActionListener {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
     public static int GAME_START = 0;
@@ -18,13 +21,12 @@ public class GameSurface extends JPanel implements ActionListener {
 
     private final RenderingHints renderingHints;
     private Font font;
-
-    private ArrayList<Renderable> renderables;
+    private final ArrayList<Renderable> renderables;
 
     /**
-     * Creates a new GameSurface instance.
+     * Creates a new GameView instance.
      */
-    public GameSurface(ArrayList<Renderable> renderables) {
+    public GameView(ArrayList<Renderable> renderables) {
         super();
         // Configure JPanel.
         setSize(WIDTH, HEIGHT);
@@ -54,8 +56,7 @@ public class GameSurface extends JPanel implements ActionListener {
     }
 
     /**
-     * Calls draw() on every game object.
-     *
+     * Calls draw() on every renderable object.
      * @param g A Graphics object.
      */
     private void draw(Graphics g) {
@@ -63,6 +64,7 @@ public class GameSurface extends JPanel implements ActionListener {
         g2d.setFont(font);
         g2d.setRenderingHints(renderingHints);
         // Draw game objects.
+        // TODO draw in reverse order.
         renderables.forEach(gameObject -> gameObject.draw(g2d));
     }
 

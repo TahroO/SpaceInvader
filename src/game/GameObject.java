@@ -22,7 +22,6 @@ abstract public class GameObject implements Renderable {
     /**
      * Constructs a new GameObject instance with a given
      * initial position.
-     *
      * @param x Initial x-position.
      * @param y Initial y-position.
      */
@@ -34,7 +33,6 @@ abstract public class GameObject implements Renderable {
 
     /**
      * Gets this GameObject's x-position.
-     *
      * @return GameObject's x-position.
      */
     public int getX() {
@@ -43,7 +41,6 @@ abstract public class GameObject implements Renderable {
 
     /**
      * Gets this GameObject's y-position.
-     *
      * @return GameObject's y-position.
      */
     public int getY() {
@@ -52,14 +49,16 @@ abstract public class GameObject implements Renderable {
 
     /**
      * Gets this GameObject's dimension.
-     *
      * @return GameObject's dimension.
      */
     public Dimension getSize() {
         return size;
     }
 
-
+    /**
+     * Gets this game object's bounds.
+     * @return Game object's bounds.
+     */
     public Rectangle getBounds() {
         return new Rectangle(x, y, size.width, size.height);
     }
@@ -67,11 +66,11 @@ abstract public class GameObject implements Renderable {
 
     /**
      * Checks if this GameObject collides with another one.
-     *
      * @param other The other GameObject.
      * @return True, if collision has been detected. False otherwise.
      */
     public boolean detectCollision(GameObject other) {
         return this.getBounds().intersects(other.getBounds());
     }
+
 }

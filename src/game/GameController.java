@@ -31,21 +31,21 @@ public class GameController implements KeyListener, ActionListener {
     private final ArrayList<Alien> aliens = new ArrayList<>();
 
     private int points;
-    private int round;
+    private int round = 1;
     private int alienVx = 27;
     private double alienSPS = 3;
     private long nextShipTimeMs;
     private long lastFrameTimeMs;
-
     private boolean pause = true;
-
-    private GameSurface view;
-
+    private GameView view;
     private ArrayList<Renderable> renderables;
 
+    /**
+     * Creates a new GameController instance.
+     */
     public GameController() {
         renderables = new ArrayList<>();
-        view = new GameSurface(renderables);
+        view = new GameView(renderables);
         gun = new Gun();
         hud = new GameHud();
         renderables.add(gun);
@@ -56,7 +56,7 @@ public class GameController implements KeyListener, ActionListener {
     }
 
     /**
-     * Initializes this game surface.
+     * Initializes controller and view.
      */
     public void init() {
         view.addKeyListener(this);
@@ -67,10 +67,15 @@ public class GameController implements KeyListener, ActionListener {
         view.init();
     }
 
-    public GameSurface getView() {
+    /**
+     * Gets the current game view.
+     * @return A game view object.
+     */
+    public GameView getView() {
         return view;
     }
 
+    // TODO move to Alien class static method.
     private void createAliens(int vx, double stepsPerSecond) {
         int margin = 15;
         int marginTop = 80;
@@ -89,6 +94,9 @@ public class GameController implements KeyListener, ActionListener {
         }
     }
 
+    /**
+     * Starts a new spaceship.
+     */
     private void startShip() {
         if (ship != null) {
             return;
@@ -99,13 +107,14 @@ public class GameController implements KeyListener, ActionListener {
     }
 
     /**
-     * Calls update() on every game object.
+     * Updates all game objects.
      */
     private void update() {
         long currentTimeMs = System.currentTimeMillis();
         int lastFrameDelta = (int) (currentTimeMs - lastFrameTimeMs);
         if (!pause) {
             updateBullet();
+            // TODO update in reverse order?
             renderables.forEach(renderable -> renderable.update(lastFrameDelta));
             updateSpaceShip(currentTimeMs);
             detectCollisions();
@@ -136,7 +145,7 @@ public class GameController implements KeyListener, ActionListener {
             int shipX = ship.getX();
             int shipDirection = ship.getDirection();
             // Ship hat fenster verlassen?
-            if (shipX > GameSurface.WIDTH && shipDirection == 1
+            if (shipX > GameView.WIDTH && shipDirection == 1
                     || shipX < -Spaceship.SHIP_WIDTH && shipDirection == -1
             ) {
                 renderables.remove(this.ship);
@@ -180,6 +189,9 @@ public class GameController implements KeyListener, ActionListener {
         }
     }
 
+    /**
+     * Calculates and sets the next spawn time of a spaceship.
+     */
     private void setNextShipTime() {
         this.nextShipTimeMs = System.currentTimeMillis() + rng.nextLong(10000, 20001);
     }
