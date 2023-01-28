@@ -195,6 +195,8 @@ public class GameController implements KeyListener, ActionListener {
             pause = false;
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             spacePressed = true;
+        } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            pause = true;
         }
     }
 
