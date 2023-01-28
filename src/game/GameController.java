@@ -19,26 +19,26 @@ public class GameController implements KeyListener, ActionListener {
 
     private final int DELAY = 16;
     private Timer timer;
-
-    private boolean spacePressed;
     private final Random rng = new Random();
+    private final GameView view;
 
     // Game objects.
+    private final ArrayList<Renderable> renderables;
+    private final ArrayList<Alien> aliens = new ArrayList<>();
     private final Gun gun;
     private final GameHud hud;
     private Bullet bullet;
     private Spaceship ship;
-    private final ArrayList<Alien> aliens = new ArrayList<>();
 
-    private int points;
+    // Game state.
+    private boolean pause = true;
     private int round = 1;
+    private int points;
     private int alienVx = 27;
     private double alienSPS = 3;
     private long nextShipTimeMs;
     private long lastFrameTimeMs;
-    private boolean pause = true;
-    private GameView view;
-    private ArrayList<Renderable> renderables;
+    private boolean spacePressed;
 
     /**
      * Creates a new GameController instance.
@@ -65,6 +65,7 @@ public class GameController implements KeyListener, ActionListener {
         timer.addActionListener(view);
         timer.start();
         view.init();
+        hud.setRound(round);
     }
 
     /**
