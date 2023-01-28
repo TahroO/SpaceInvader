@@ -108,7 +108,6 @@ public class GameController implements KeyListener, ActionListener {
             updateBullet();
             renderables.forEach(renderable -> renderable.update(lastFrameDelta));
             updateSpaceShip(currentTimeMs);
-            gun.update(lastFrameDelta);
             detectCollisions();
             // Check next level.
             if (aliens.isEmpty()) {

@@ -12,6 +12,9 @@ import java.util.Map;
 public class GameSurface extends JPanel implements ActionListener {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
+    public static int GAME_START = 0;
+    public static int GAME_PAUSE = 1;
+    public static int GAME_OVER = 2;
 
     private final RenderingHints renderingHints;
     private Font font;
