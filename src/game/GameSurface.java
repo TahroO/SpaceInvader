@@ -66,6 +66,34 @@ public class GameSurface extends JPanel implements ActionListener {
         renderables.forEach(gameObject -> gameObject.draw(g2d));
     }
 
+    public static int getGameStart() {
+        return GAME_START;
+    }
+
+    public static int getGamePause() {
+        return GAME_PAUSE;
+    }
+
+    public static int getGameOver() {
+        return GAME_OVER;
+    }
+
+    public static int getGameStatus(int gameStatus) {
+        switch (gameStatus) {
+            case 0  ->  {return GAME_START;}
+            case 1  ->  {return GAME_PAUSE;}
+            default ->  {return GAME_OVER;}
+        }
+        /*if (gameStatus == 0){
+            return GAME_START;
+        } else if (gameStatus == 1) {
+            return GAME_PAUSE;
+        } else {
+            return GAME_OVER;
+        }*/
+    }
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
