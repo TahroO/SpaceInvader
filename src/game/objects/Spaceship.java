@@ -21,7 +21,7 @@ public class Spaceship extends GameObject {
 
     public static Spaceship startShip(int dir) {
         int y = 35;
-        int vx = 20;
+        int vx = 133;
         int x = -Spaceship.SHIP_WIDTH;
         if (dir < 0) {
             x = GameSurface.WIDTH + Spaceship.SHIP_WIDTH;
