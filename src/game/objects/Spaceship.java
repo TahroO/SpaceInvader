@@ -38,7 +38,6 @@ public class Spaceship extends GameObject {
     public void update(int timeDelta) {
         int t = (int) Math.ceil((vx / 1000d) * timeDelta);
         x += dir * t;
-        System.out.println(x + "->" + t);
     }
 
     @Override
