@@ -34,7 +34,6 @@ public class GameSurface extends JPanel implements ActionListener {
         );
         renderingHints = new RenderingHints(hintsMap);
         this.renderables = renderables;
-        init();
     }
 
     /**

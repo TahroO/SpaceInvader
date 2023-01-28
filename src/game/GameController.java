@@ -50,7 +50,6 @@ public class GameController implements KeyListener, ActionListener {
         renderables.add(hud);
         createAliens(alienVx, alienSPS);
         setNextShipTime();
-        init();
         lastFrameTimeMs = System.currentTimeMillis();
 
     }
@@ -64,6 +63,7 @@ public class GameController implements KeyListener, ActionListener {
         timer = new Timer(DELAY, this);
         timer.addActionListener(view);
         timer.start();
+        view.init();
     }
 
     public GameSurface getView() {
