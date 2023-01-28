@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 /**
  * Game's HUD.
  */
-public class GameHud {
+public class GameHud implements Renderable {
     public static final int HUD_HEIGHT = 18;
     int points;
     int round;

@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Base class for all game objects.
  */
-abstract public class GameObject {
+abstract public class GameObject implements Renderable {
     /**
      * Object's current x and y position.
      */
@@ -59,19 +59,6 @@ abstract public class GameObject {
         return size;
     }
 
-    /**
-     * Updates the GameObject's status.
-     *
-     * @param timeDelta Milliseconds passed since last frame.
-     */
-    abstract public void update(int timeDelta);
-
-    /**
-     * Draws ths GameObject.
-     *
-     * @param g2d AWT 2D graphics object.
-     */
-    abstract public void draw(Graphics2D g2d);
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, size.width, size.height);
