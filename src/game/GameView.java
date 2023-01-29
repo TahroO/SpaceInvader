@@ -26,6 +26,7 @@ public class GameView extends JPanel implements ActionListener {
     private Font font;
 
     private Font largeFont;
+    private Font boldFont;
     private final ArrayList<Renderable> renderables;
 
     /**
@@ -55,6 +56,7 @@ public class GameView extends JPanel implements ActionListener {
             Font uniFont = Font.createFont(Font.TRUETYPE_FONT, fontIs);
             font = uniFont.deriveFont(20f);
             largeFont = uniFont.deriveFont(50f);
+            boldFont = uniFont.deriveFont(Font.BOLD, 30f);
             getGraphics().setFont(font);
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
@@ -84,7 +86,11 @@ public class GameView extends JPanel implements ActionListener {
         }
     }
 
+
     private void drawScreen(Graphics2D g2d) {
+        g2d.setColor(Color.white);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+        g2d.fillRect(0,0 , 800, 600);
         String title = "Space Invaders";
         int xHalf = 250;
         int yHalf = getHeight() / 2;
@@ -92,28 +98,30 @@ public class GameView extends JPanel implements ActionListener {
         g2d.setFont(largeFont);
         g2d.drawString(title, xHalf,yHalf);
         g2d.drawLine(xHalf,yHalf + 2, xHalf + getFontMetrics(largeFont).stringWidth(title), yHalf + 2);
+
     }
     private void drawStartScreen(Graphics2D g2d) {
-        g2d.setColor(Color.YELLOW);
-        g2d.fillRect(20, 40, 200, 200);
         drawScreen(g2d);
-
-
+        String start = "Start your Game!";
+        g2d.setColor(Color.blue);
+        g2d.setFont(boldFont);
+        g2d.drawString(start, 280,400);
     }
 
     private void drawPauseScreen(Graphics2D g2d) {
-        g2d.setColor(Color.RED);
-        g2d.fillRect(20, 40, 200, 200);
         drawScreen(g2d);
-        g2d.setColor(Color.GREEN);
-        g2d.setFont(font);
-        g2d.drawString("Pause", 250,(getHeight() / 2) - 50 );
+        String start = "Pause - press a button";
+        g2d.setColor(Color.blue);
+        g2d.setFont(boldFont);
+        g2d.drawString(start, 250,400);
     }
 
     private void drawGameOverScreen(Graphics2D g2d) {
-        g2d.setColor(Color.BLUE);
-        g2d.fillRect(20, 40, 200, 200);
         drawScreen(g2d);
+        String start = "Game Over - try again";
+        g2d.setColor(Color.magenta);
+        g2d.setFont(boldFont);
+        g2d.drawString(start, 250,400);
     }
 
     public void setOverlay(int overlay) {
