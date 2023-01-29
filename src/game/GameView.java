@@ -84,24 +84,36 @@ public class GameView extends JPanel implements ActionListener {
         }
     }
 
+    private void drawScreen(Graphics2D g2d) {
+        String title = "Space Invaders";
+        int xHalf = 250;
+        int yHalf = getHeight() / 2;
+        g2d.setColor(Color.cyan);
+        g2d.setFont(largeFont);
+        g2d.drawString(title, xHalf,yHalf);
+        g2d.drawLine(xHalf,yHalf + 2, xHalf + getFontMetrics(largeFont).stringWidth(title), yHalf + 2);
+    }
     private void drawStartScreen(Graphics2D g2d) {
         g2d.setColor(Color.YELLOW);
         g2d.fillRect(20, 40, 200, 200);
-        g2d.setColor(Color.cyan);
-        g2d.setFont(largeFont);
-        g2d.drawString("Space Invader", 50,50);
+        drawScreen(g2d);
+
 
     }
 
     private void drawPauseScreen(Graphics2D g2d) {
         g2d.setColor(Color.RED);
         g2d.fillRect(20, 40, 200, 200);
-        g2d.drawString("Pause", 50,50);
+        drawScreen(g2d);
+        g2d.setColor(Color.GREEN);
+        g2d.setFont(font);
+        g2d.drawString("Pause", 250,(getHeight() / 2) - 50 );
     }
 
     private void drawGameOverScreen(Graphics2D g2d) {
         g2d.setColor(Color.BLUE);
         g2d.fillRect(20, 40, 200, 200);
+        drawScreen(g2d);
     }
 
     public void setOverlay(int overlay) {
