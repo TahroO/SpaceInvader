@@ -15,12 +15,17 @@ import java.util.Map;
 public class GameView extends JPanel implements ActionListener {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
-    public static int GAME_START = 0;
-    public static int GAME_PAUSE = 1;
-    public static int GAME_OVER = 2;
+    public static final int OVERLAY_NONE = 0;
+    public static final int OVERLAY_START = 1;
+    public static final int OVERLAY_PAUSE = 2;
+    public static final int OVERLAY_OVER = 3;
+
+    private int overlay;
 
     private final RenderingHints renderingHints;
     private Font font;
+
+    private Font largeFont;
     private final ArrayList<Renderable> renderables;
 
     /**
@@ -49,6 +54,7 @@ public class GameView extends JPanel implements ActionListener {
         try {
             Font uniFont = Font.createFont(Font.TRUETYPE_FONT, fontIs);
             font = uniFont.deriveFont(20f);
+            largeFont = uniFont.deriveFont(50f);
             getGraphics().setFont(font);
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
@@ -57,44 +63,50 @@ public class GameView extends JPanel implements ActionListener {
 
     /**
      * Calls draw() on every renderable object.
+     *
      * @param g A Graphics object.
      */
     private void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setFont(font);
         g2d.setRenderingHints(renderingHints);
-        // Draw game objects.
-        // TODO draw in reverse order.
-        renderables.forEach(gameObject -> gameObject.draw(g2d));
-    }
 
-    public static int getGameStart() {
-        return GAME_START;
-    }
-
-    public static int getGamePause() {
-        return GAME_PAUSE;
-    }
-
-    public static int getGameOver() {
-        return GAME_OVER;
-    }
-
-    public static int getGameStatus(int gameStatus) {
-        switch (gameStatus) {
-            case 0  ->  {return GAME_START;}
-            case 1  ->  {return GAME_PAUSE;}
-            default ->  {return GAME_OVER;}
+        // Draw game objects in reverse order.
+        for (int i = renderables.size() - 1; i >= 0; i--) {
+            Renderable gameObject = renderables.get(i);
+            gameObject.draw(g2d);
         }
-        /*if (gameStatus == 0){
-            return GAME_START;
-        } else if (gameStatus == 1) {
-            return GAME_PAUSE;
-        } else {
-            return GAME_OVER;
-        }*/
+
+        switch (overlay) {
+            case OVERLAY_START -> drawStartScreen(g2d);
+            case OVERLAY_PAUSE -> drawPauseScreen(g2d);
+            case OVERLAY_OVER -> drawGameOverScreen(g2d);
+        }
     }
 
+    private void drawStartScreen(Graphics2D g2d) {
+        g2d.setColor(Color.YELLOW);
+        g2d.fillRect(20, 40, 200, 200);
+        g2d.setColor(Color.cyan);
+        g2d.setFont(largeFont);
+        g2d.drawString("Space Invader", 50,50);
+
+    }
+
+    private void drawPauseScreen(Graphics2D g2d) {
+        g2d.setColor(Color.RED);
+        g2d.fillRect(20, 40, 200, 200);
+        g2d.drawString("Pause", 50,50);
+    }
+
+    private void drawGameOverScreen(Graphics2D g2d) {
+        g2d.setColor(Color.BLUE);
+        g2d.fillRect(20, 40, 200, 200);
+    }
+
+    public void setOverlay(int overlay) {
+        this.overlay = overlay;
+    }
 
     @Override
     protected void paintComponent(Graphics g) {

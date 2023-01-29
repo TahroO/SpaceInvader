@@ -66,6 +66,7 @@ public class GameController implements KeyListener, ActionListener {
         timer.start();
         view.init();
         hud.setRound(round);
+        view.setOverlay(GameView.OVERLAY_START);
     }
 
     /**
@@ -205,10 +206,12 @@ public class GameController implements KeyListener, ActionListener {
     public void keyPressed(KeyEvent e) {
         if (pause) {
             pause = false;
+            view.setOverlay(GameView.OVERLAY_NONE);
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             spacePressed = true;
         } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             pause = true;
+            view.setOverlay(GameView.OVERLAY_PAUSE);
         }
     }
 
