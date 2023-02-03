@@ -43,16 +43,16 @@ abstract public class GameObject implements Renderable {
      * Gets this GameObject's x-position.
      * @return GameObject's x-position.
      */
-    public int getX() {
-        return x;
+    public double getX() {
+        return posX;
     }
 
     /**
      * Gets this GameObject's y-position.
      * @return GameObject's y-position.
      */
-    public int getY() {
-        return y;
+    public double getY() {
+        return posY;
     }
 
     /**
@@ -73,4 +73,7 @@ abstract public class GameObject implements Renderable {
         return this.getBounds().intersects(other.getBounds());
     }
 
+    protected int toPixel(int maxPx, double fract) {
+        return (int) Math.round(maxPx * fract);
+    }
 }

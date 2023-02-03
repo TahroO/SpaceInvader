@@ -16,7 +16,6 @@ public class Gun extends GameObject implements KeyListener {
     protected final int DIR_RIGHT = 1;
     protected final int DIR_LEFT = -1;
 
-
     //private final int[] xPointOffsets = {0, 60, 60, 35, 35, 30, 25, 25, 0, 0};
     //private final int[] yPointOffsets = {20, 20, 10, 10, 10, 0, 10, 10, 10, 20};
     //private final int[] currentXs = new int[xPointOffsets.length];
@@ -33,7 +32,7 @@ public class Gun extends GameObject implements KeyListener {
      * Creates a new Gun instance.
      */
     public Gun() {
-        super((1 - GUN_WIDTH) / 2d, 1 - 0.087209302, GUN_WIDTH, GUN_HEIGHT);
+        super((1 - GUN_WIDTH) / 2d, 1 - 0.11627907, GUN_WIDTH, GUN_HEIGHT);
     }
 
     @Override
@@ -55,12 +54,11 @@ public class Gun extends GameObject implements KeyListener {
     public void draw(Graphics2D g, int canvasWidth, int canvasHeight) {
         g.setColor(color);
         g.fillRect(
-                (int) Math.round(canvasWidth * posX),
-                (int) Math.round(canvasWidth * posY),
-                (int) Math.round(canvasWidth * width),
-                (int) Math.round(canvasWidth * height)
+                toPixel(canvasWidth, posX),
+                toPixel(canvasWidth, posY),
+                toPixel(canvasWidth, width),
+                toPixel(canvasWidth, height)
         );
-        //.fill(poly);
     }
 
     @Override

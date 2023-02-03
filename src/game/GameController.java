@@ -115,7 +115,7 @@ public class GameController implements KeyListener, ActionListener {
         long currentTimeMs = System.currentTimeMillis();
         int lastFrameDelta = (int) (currentTimeMs - lastFrameTimeMs);
         if (!pause) {
-            //updateBullet();
+            updateBullet();
             // TODO update in reverse order?
             renderables.forEach(renderable -> renderable.update(lastFrameDelta));
             //updateSpaceShip(currentTimeMs);
@@ -129,19 +129,17 @@ public class GameController implements KeyListener, ActionListener {
         lastFrameTimeMs = currentTimeMs;
     }
 
-    /*
     private void updateBullet() {
         // Update bullet.
         if (bullet == null && spacePressed) {
             bullet = new Bullet(gun.getX() + (Gun.GUN_WIDTH - Bullet.BULLET_WITH) / 2, gun.getY() - Bullet.BULLET_HEIGHT);
             renderables.add(bullet);
         }
-        if (bullet != null && bullet.getY() < GameHud.HUD_HEIGHT) {
+        if (bullet != null && bullet.getY() < 0) {
             renderables.remove(bullet);
             bullet = null;
         }
     }
-     */
 
     /*
     private void updateSpaceShip(long currentTimeMs) {
