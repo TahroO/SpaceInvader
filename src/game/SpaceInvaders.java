@@ -1,5 +1,7 @@
 package game;
 
+import game.view.GameView;
+
 import javax.swing.*;
 
 /**

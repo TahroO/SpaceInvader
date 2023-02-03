@@ -1,7 +1,6 @@
 package game.objects;
 
-import game.GameObject;
-import game.GameView;
+import game.view.GameView;
 
 import java.awt.*;
 

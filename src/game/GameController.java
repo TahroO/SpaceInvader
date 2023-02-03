@@ -4,6 +4,7 @@ import game.objects.Alien;
 import game.objects.Bullet;
 import game.objects.Gun;
 import game.objects.Spaceship;
+import game.view.GameView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
