@@ -18,5 +18,4 @@ public class SpaceInvaders {
         frame.setVisible(true);
         gameController.init();
     }
-
 }
