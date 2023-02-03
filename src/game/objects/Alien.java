@@ -56,7 +56,7 @@ public class Alien extends GameObject {
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d, int canvasWidth, int canvasHeight) {
         g2d.setColor(Color.white);
         g2d.fillRect(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
 

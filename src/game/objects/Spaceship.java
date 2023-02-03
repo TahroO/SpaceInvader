@@ -57,7 +57,7 @@ public class Spaceship extends GameObject {
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d, int canvasWidth, int canvasHeight) {
         g2d.setColor(Color.CYAN);
         g2d.fillOval(x, y, SHIP_WIDTH, SHIP_HEIGHT);
     }

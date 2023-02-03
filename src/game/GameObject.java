@@ -10,15 +10,23 @@ abstract public class GameObject implements Renderable {
      * Object's current x and y position.
      */
     protected int x, y;
+    protected double posX, posY;
     /**
      * Object dimension aka object's width and height.
      */
+    protected double width, height;
     protected Dimension size;
     /**
      * Sprite.
      */
     protected Image sprite;
 
+    public GameObject(double x, double y, double width, double height) {
+        posX = x;
+        posY = y;
+        this.width = width;
+        this.height = height;
+    }
     /**
      * Constructs a new GameObject instance with a given
      * initial position.
@@ -45,14 +53,6 @@ abstract public class GameObject implements Renderable {
      */
     public int getY() {
         return y;
-    }
-
-    /**
-     * Gets this GameObject's dimension.
-     * @return GameObject's dimension.
-     */
-    public Dimension getSize() {
-        return size;
     }
 
     /**

@@ -11,7 +11,7 @@ public interface Renderable {
      * Draws ths GameObject.
      * @param g2d AWT 2D graphics object.
      */
-    void draw(Graphics2D g2d);
+    void draw(Graphics2D g2d, int canvasWidth, int canvasHeight);
 
     /**
      * Updates the GameObject's status.

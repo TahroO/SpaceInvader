@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class GameView extends JPanel implements ActionListener {
     public static final int WIDTH = 800;
-    public static final int HEIGHT = 600;
+    public static final int HEIGHT = 800;
     public static final int OVERLAY_NONE = 0;
     public static final int OVERLAY_START = 1;
     public static final int OVERLAY_PAUSE = 2;
@@ -76,7 +76,7 @@ public class GameView extends JPanel implements ActionListener {
         // Draw game objects in reverse order.
         for (int i = renderables.size() - 1; i >= 0; i--) {
             Renderable gameObject = renderables.get(i);
-            gameObject.draw(g2d);
+            gameObject.draw(g2d, WIDTH, HEIGHT);
         }
 
         switch (overlay) {

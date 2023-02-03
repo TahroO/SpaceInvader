@@ -45,7 +45,7 @@ public class GameHud implements Renderable {
     }
 
     @Override
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g, int canvasWidth, int canvasHeight) {
         g.setColor(Color.GRAY);
         g.fillRect(0, 0, GameView.WIDTH, HUD_HEIGHT);
         g.setColor(Color.BLACK);

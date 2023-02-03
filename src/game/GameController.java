@@ -26,7 +26,7 @@ public class GameController implements KeyListener, ActionListener {
     private final ArrayList<Renderable> renderables;
     private final ArrayList<Alien> aliens = new ArrayList<>();
     private final Gun gun;
-    private final GameHud hud;
+    //private final GameHud hud;
     private Bullet bullet;
     private Spaceship ship;
 
@@ -47,12 +47,12 @@ public class GameController implements KeyListener, ActionListener {
         renderables = new ArrayList<>();
         view = new GameView(renderables);
         gun = new Gun();
-        hud = new GameHud();
+        //hud = new GameHud();
         renderables.add(gun);
-        renderables.add(hud);
-        createAliens(alienVx, alienSPS);
-        setNextShipTime();
-        lastFrameTimeMs = System.currentTimeMillis();
+        //renderables.add(hud);
+        //createAliens(alienVx, alienSPS);
+        //setNextShipTime();
+        //lastFrameTimeMs = System.currentTimeMillis();
     }
 
     /**
@@ -65,7 +65,7 @@ public class GameController implements KeyListener, ActionListener {
         timer.addActionListener(view);
         timer.start();
         view.init();
-        hud.setRound(round);
+        //hud.setRound(round);
         view.setOverlay(GameView.OVERLAY_START);
     }
 
@@ -115,20 +115,21 @@ public class GameController implements KeyListener, ActionListener {
         long currentTimeMs = System.currentTimeMillis();
         int lastFrameDelta = (int) (currentTimeMs - lastFrameTimeMs);
         if (!pause) {
-            updateBullet();
+            //updateBullet();
             // TODO update in reverse order?
             renderables.forEach(renderable -> renderable.update(lastFrameDelta));
-            updateSpaceShip(currentTimeMs);
-            detectCollisions();
+            //updateSpaceShip(currentTimeMs);
+            //detectCollisions();
             // Check next level.
-            if (aliens.isEmpty()) {
-                nextRound();
-            }
+            //if (aliens.isEmpty()) {
+            //    nextRound();
+            //}
         }
-        hud.update(lastFrameDelta);
+        //hud.update(lastFrameDelta);
         lastFrameTimeMs = currentTimeMs;
     }
 
+    /*
     private void updateBullet() {
         // Update bullet.
         if (bullet == null && spacePressed) {
@@ -140,7 +141,9 @@ public class GameController implements KeyListener, ActionListener {
             bullet = null;
         }
     }
+     */
 
+    /*
     private void updateSpaceShip(long currentTimeMs) {
         // Start or update ship.
         if (ship != null) {
@@ -159,9 +162,10 @@ public class GameController implements KeyListener, ActionListener {
         }
     }
 
+
     private void nextRound() {
         round += 1;
-        hud.setRound(round);
+        //hud.setRound(round);
         createAliens(alienVx += 15, alienSPS *= 1.25);
     }
 
@@ -191,12 +195,15 @@ public class GameController implements KeyListener, ActionListener {
         }
     }
 
+    */
+
     /**
      * Calculates and sets the next spawn time of a spaceship.
      */
     private void setNextShipTime() {
         this.nextShipTimeMs = System.currentTimeMillis() + rng.nextLong(10000, 20001);
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
