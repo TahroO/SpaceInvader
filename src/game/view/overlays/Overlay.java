@@ -27,7 +27,6 @@ abstract public class Overlay {
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2d.fillRect(0,0 , canvasWidth, canvasHeight);
         String title = "Space Invaders";
-        int xHalf = canvasWidth / 2;
         int yHalf = canvasHeight / 2;
         g2d.setColor(Color.cyan);
         g2d.setFont(largeFont);

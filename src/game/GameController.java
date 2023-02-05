@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameController implements KeyListener, ActionListener {
-    public static final int ROWS = 4;
-    public static final int COLS = 10;
+    public static final int ROWS = 5;
+    public static final int COLS = 11;
 
     private final int DELAY = 16;
     private Timer timer;
@@ -51,7 +51,7 @@ public class GameController implements KeyListener, ActionListener {
         //hud = new GameHud();
         renderables.add(gun);
         //renderables.add(hud);
-        //createAliens(alienVx, alienSPS);
+        createAliens(alienVx, alienSPS);
         //setNextShipTime();
         //lastFrameTimeMs = System.currentTimeMillis();
     }
@@ -80,16 +80,16 @@ public class GameController implements KeyListener, ActionListener {
 
     // TODO move to Alien class static method.
     private void createAliens(int vx, double stepsPerSecond) {
-        int margin = 15;
-        int marginTop = 80;
-        int spacing = (int) Math.round(Alien.ALIEN_WIDTH * 0.75);
-        int rowHeight = Alien.ALIEN_HEIGHT + spacing;
-        int stride = Alien.ALIEN_WIDTH + spacing;
-        int maxDistance = view.getWidth() - (stride * COLS - spacing) - (2 * margin);
+        double margin = 0.136046512;
+        double marginTop = 0.261627907;
+        double spacing = 0.013953488;
+        double rowHeight = 0.077906977;
+        double stride = Alien.ALIEN_WIDTH + spacing;
+        double maxDistance = 1d - (stride * COLS - spacing) - (2 * margin);
         for (int row = 0; row < ROWS; row++) {
-            int y = marginTop + row * rowHeight;
+            double y = marginTop + row * rowHeight;
             for (int col = 0; col < COLS; col++) {
-                int x = margin + col * stride;
+                double x = margin + col * stride;
                 Alien alien = new Alien(x, y, x + maxDistance, vx, stepsPerSecond);
                 aliens.add(alien);
                 renderables.add(alien);
@@ -122,9 +122,9 @@ public class GameController implements KeyListener, ActionListener {
             //updateSpaceShip(currentTimeMs);
             //detectCollisions();
             // Check next level.
-            //if (aliens.isEmpty()) {
-            //    nextRound();
-            //}
+            if (aliens.isEmpty()) {
+                //nextRound();
+            }
         }
         //hud.update(lastFrameDelta);
         lastFrameTimeMs = currentTimeMs;

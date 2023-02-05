@@ -10,8 +10,9 @@ public class Alien extends GameObject {
     public static final double ALIEN_HEIGHT = 0.043023256;
 
     private int dir = 1;
+    private final Color COLOR = Color.decode("#ffffff");
     // PX per second.
-    private double vx = 0.03375;
+    private double vx;
     private double minX;
     private double maxX;
     private int frame;
@@ -43,11 +44,11 @@ public class Alien extends GameObject {
             if (dir == 1 && posX + stride > maxX) {
                 dir = -1;
                 posY += ALIEN_HEIGHT;
-            } else if (dir == -1 && x - stride < minX) {
+            } else if (dir == -1 && posX - stride < minX) {
                 dir = 1;
-                y += ALIEN_HEIGHT;
+                posY += ALIEN_HEIGHT;
             } else {
-                x += dir * stride;
+                posX += dir * stride;
             }
 
             timePassed = (int) (timePassed - 1000d / stepsPerSecond);
@@ -56,8 +57,13 @@ public class Alien extends GameObject {
 
     @Override
     public void draw(Graphics2D g2d, int canvasWidth, int canvasHeight) {
-        g2d.setColor(Color.white);
-        g2d.fillRect(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
+        g2d.setColor(COLOR);
+        g2d.fillRect(
+                toPixel(canvasWidth, posX),
+                toPixel(canvasWidth, posY),
+                toPixel(canvasWidth, width),
+                toPixel(canvasWidth, height)
+        );
 
     }
 }

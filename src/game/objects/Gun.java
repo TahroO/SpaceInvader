@@ -17,7 +17,7 @@ public class Gun extends GameObject implements KeyListener {
     //private final int[] yPointOffsets = {20, 20, 10, 10, 10, 0, 10, 10, 10, 20};
     //private final int[] currentXs = new int[xPointOffsets.length];
     //private final int[] currentYs = new int[yPointOffsets.length];
-    private final Color color = Color.decode("#48A803");
+    private final Color COLOR = Color.decode("#48A803");
     private final int X_MIN = 0;
     private final double X_MAX = 1 - GUN_WIDTH;
     protected int dir;
@@ -49,7 +49,7 @@ public class Gun extends GameObject implements KeyListener {
 
     @Override
     public void draw(Graphics2D g, int canvasWidth, int canvasHeight) {
-        g.setColor(color);
+        g.setColor(COLOR);
         g.fillRect(
                 toPixel(canvasWidth, posX),
                 toPixel(canvasWidth, posY),
