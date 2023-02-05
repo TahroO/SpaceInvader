@@ -30,6 +30,10 @@ public class Alien extends GameObject {
         this.stepsPerSecond = stepsPerSecond;
     }
 
+    public int getDir() {
+        return dir;
+    }
+
     public void switchDirection() {
         dir *= -1;
         posY += ALIEN_HEIGHT;

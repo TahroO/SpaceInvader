@@ -72,6 +72,7 @@ public class GameController implements KeyListener, ActionListener {
 
     /**
      * Gets the current game view.
+     *
      * @return A game view object.
      */
     public GameView getView() {
@@ -89,7 +90,7 @@ public class GameController implements KeyListener, ActionListener {
             double y = marginTop + row * rowHeight;
             for (int col = 0; col < COLS; col++) {
                 double x = margin + col * stride;
-                Alien alien = new Alien(x, y,vx, stepsPerSecond);
+                Alien alien = new Alien(x, y, vx, stepsPerSecond);
                 aliens.add(alien);
                 renderables.add(alien);
             }
@@ -116,6 +117,7 @@ public class GameController implements KeyListener, ActionListener {
         int lastFrameDelta = (int) (currentTimeMs - lastFrameTimeMs);
         if (!pause) {
             updateBullet();
+            updateAliens();
             // TODO update in reverse order?
             renderables.forEach(renderable -> renderable.update(lastFrameDelta));
             //updateSpaceShip(currentTimeMs);
@@ -127,6 +129,18 @@ public class GameController implements KeyListener, ActionListener {
         }
         //hud.update(lastFrameDelta);
         lastFrameTimeMs = currentTimeMs;
+    }
+
+    private void updateAliens() {
+        double edgeRight = 1 - 0.065116279;
+        double edgeLeft = 0.065116279;
+        for (Alien alien : aliens) {
+            if (alien.getDir() == 1 && alien.getX() + Alien.ALIEN_WIDTH >= edgeRight
+                    || alien.getDir() == -1 && alien.getX() <= edgeLeft) {
+                aliens.forEach(Alien::switchDirection);
+                break;
+            }
+        }
     }
 
     private void updateBullet() {
