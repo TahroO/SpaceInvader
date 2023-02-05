@@ -23,7 +23,7 @@ abstract public class Overlay {
     }
 
     private void drawScreen(Graphics2D g2d, int canvasWidth, int canvasHeight) {
-        g2d.setColor(Color.white);
+        g2d.setColor(Color.black);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2d.fillRect(0,0 , canvasWidth, canvasHeight);
         String title = "Space Invaders";
