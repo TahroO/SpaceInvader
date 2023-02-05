@@ -32,7 +32,6 @@ abstract public class Overlay {
         g2d.setColor(Color.cyan);
         g2d.setFont(largeFont);
         drawStringCenter(g2d, title, yHalf, canvasWidth);
-        g2d.drawLine(xHalf,yHalf + 2, xHalf + g2d.getFontMetrics(largeFont).stringWidth(title), yHalf + 2);
     }
 
     protected void drawStringCenter(Graphics2D g2d, String screenText, int posY, int canvasWidth) {

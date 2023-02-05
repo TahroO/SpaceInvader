@@ -1,7 +1,9 @@
 package game.view;
 
 import game.Renderable;
+import game.view.overlays.GameOverScreen;
 import game.view.overlays.Overlay;
+import game.view.overlays.PauseScreen;
 import game.view.overlays.StartScreen;
 
 import javax.swing.*;
@@ -26,6 +28,9 @@ public class GameView extends JPanel implements ActionListener {
 
     private int overlay;
     private Overlay startScreen;
+
+    private Overlay pauseScreen;
+    private Overlay gameOverScreen;
 
     private final RenderingHints renderingHints;
     private Font font;
@@ -65,6 +70,8 @@ public class GameView extends JPanel implements ActionListener {
             boldFont = uniFont.deriveFont(Font.BOLD, 30f);
             getGraphics().setFont(font);
             startScreen = new StartScreen(uniFont);
+            pauseScreen = new PauseScreen(uniFont);
+            gameOverScreen = new GameOverScreen(uniFont);
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -88,34 +95,10 @@ public class GameView extends JPanel implements ActionListener {
 
         switch (overlay) {
             case OVERLAY_START -> startScreen.draw(g2d, getWidth(), getHeight());
-            //case OVERLAY_PAUSE -> drawPauseScreen(g2d);
-            //case OVERLAY_OVER -> drawGameOverScreen(g2d);
+            case OVERLAY_PAUSE -> pauseScreen.draw(g2d, getWidth(), getHeight());
+            case OVERLAY_OVER -> gameOverScreen.draw(g2d, getWidth(), getHeight());
         }
     }
-
-
-
-    private void drawStartScreen(Graphics2D g2d) {
-        String start = "Start your Game!";
-        g2d.setColor(Color.blue);
-        g2d.setFont(boldFont);
-        g2d.drawString(start, 280,400);
-    }
-
-    private void drawPauseScreen(Graphics2D g2d) {
-        String start = "Pause - press a button";
-        g2d.setColor(Color.blue);
-        g2d.setFont(boldFont);
-        g2d.drawString(start, 250,400);
-    }
-
-    private void drawGameOverScreen(Graphics2D g2d) {
-        String start = "Game Over - try again";
-        g2d.setColor(Color.magenta);
-        g2d.setFont(boldFont);
-        g2d.drawString(start, 250,400);
-    }
-
     public void setOverlay(int overlay) {
         this.overlay = overlay;
     }
