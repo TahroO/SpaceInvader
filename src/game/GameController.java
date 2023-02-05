@@ -85,12 +85,11 @@ public class GameController implements KeyListener, ActionListener {
         double spacing = 0.013953488;
         double rowHeight = 0.077906977;
         double stride = Alien.ALIEN_WIDTH + spacing;
-        double maxDistance = 1d - (stride * COLS - spacing) - (2 * margin);
         for (int row = 0; row < ROWS; row++) {
             double y = marginTop + row * rowHeight;
             for (int col = 0; col < COLS; col++) {
                 double x = margin + col * stride;
-                Alien alien = new Alien(x, y,0.065116279,x + maxDistance, vx, stepsPerSecond);
+                Alien alien = new Alien(x, y,vx, stepsPerSecond);
                 aliens.add(alien);
                 renderables.add(alien);
             }

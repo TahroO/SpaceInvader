@@ -13,27 +13,26 @@ public class Alien extends GameObject {
     private final Color COLOR = Color.decode("#ffffff");
     // PX per second.
     private double vx;
-    private double minX;
-    private double maxX;
     private int frame;
     private long timePassed;
-    private double stepsPerSecond = 3;
+    private double stepsPerSecond;
 
     /**
      *  Creates a new Alien object.
      * @param x X-position (in px) on panel.
      * @param y Y-position (in px) on panel.
-     * @param maxX Max x-position (in px) after which alien needs to switch direction.
      * @param vx Velocity in px per second.
      * @param stepsPerSecond ...
      */
-    public Alien(double x, double y, double minX, double maxX, double vx, double stepsPerSecond) {
+    public Alien(double x, double y, double vx, double stepsPerSecond) {
         super(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
-        this.maxX = maxX;
-        this.minX = minX;
         this.vx = vx;
         this.stepsPerSecond = stepsPerSecond;
+    }
 
+    public void switchDirection() {
+        dir *= -1;
+        posY += ALIEN_HEIGHT;
     }
 
     @Override
@@ -41,16 +40,7 @@ public class Alien extends GameObject {
         timePassed += timeDelta;
         if (timePassed >= 1000d / stepsPerSecond) {
             double stride = vx / stepsPerSecond;
-            if (dir == 1 && posX + stride > maxX) {
-                dir = -1;
-                posY += ALIEN_HEIGHT;
-            } else if (dir == -1 && posX - stride < minX) {
-                dir = 1;
-                posY += ALIEN_HEIGHT;
-            } else {
-                posX += dir * stride;
-            }
-
+            posX += dir * stride;
             timePassed = (int) (timePassed - 1000d / stepsPerSecond);
         }
     }
@@ -64,6 +54,6 @@ public class Alien extends GameObject {
                 toPixel(canvasWidth, width),
                 toPixel(canvasWidth, height)
         );
-
     }
+
 }
