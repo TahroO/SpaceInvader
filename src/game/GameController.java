@@ -35,7 +35,7 @@ public class GameController implements KeyListener, ActionListener {
     private boolean pause = true;
     private int round = 1;
     private int points;
-    private int alienVx = 27;
+    private double alienVx = 0.03375;
     private double alienSPS = 3;
     private long nextShipTimeMs;
     private long lastFrameTimeMs;
@@ -79,7 +79,7 @@ public class GameController implements KeyListener, ActionListener {
     }
 
     // TODO move to Alien class static method.
-    private void createAliens(int vx, double stepsPerSecond) {
+    private void createAliens(double vx, double stepsPerSecond) {
         double margin = 0.136046512;
         double marginTop = 0.261627907;
         double spacing = 0.013953488;
@@ -90,7 +90,7 @@ public class GameController implements KeyListener, ActionListener {
             double y = marginTop + row * rowHeight;
             for (int col = 0; col < COLS; col++) {
                 double x = margin + col * stride;
-                Alien alien = new Alien(x, y, x + maxDistance, vx, stepsPerSecond);
+                Alien alien = new Alien(x, y,0.065116279,x + maxDistance, vx, stepsPerSecond);
                 aliens.add(alien);
                 renderables.add(alien);
             }

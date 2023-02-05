@@ -27,10 +27,10 @@ public class Alien extends GameObject {
      * @param vx Velocity in px per second.
      * @param stepsPerSecond ...
      */
-    public Alien(double x, double y, double maxX, double vx, double stepsPerSecond) {
+    public Alien(double x, double y, double minX, double maxX, double vx, double stepsPerSecond) {
         super(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
         this.maxX = maxX;
-        this.minX = x;
+        this.minX = minX;
         this.vx = vx;
         this.stepsPerSecond = stepsPerSecond;
 
