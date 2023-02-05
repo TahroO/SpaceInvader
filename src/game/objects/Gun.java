@@ -28,7 +28,7 @@ public class Gun extends GameObject implements KeyListener {
     /**
      * Creates a new Gun instance.
      */
-    public Gun() {
+    public Gun() { 
         super((1 - GUN_WIDTH) / 2d, 1 - 0.11627907, GUN_WIDTH, GUN_HEIGHT);
     }
 

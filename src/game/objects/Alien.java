@@ -6,14 +6,14 @@ import java.awt.*;
  * Represents an Alien entity.
  */
 public class Alien extends GameObject {
-    public static final int ALIEN_WIDTH = 20;
-    public static final int ALIEN_HEIGHT = 20;
+    public static final double ALIEN_WIDTH = 0.053488372;
+    public static final double ALIEN_HEIGHT = 0.043023256;
 
     private int dir = 1;
     // PX per second.
-    private int vx = 27;
-    private int minX;
-    private int maxX;
+    private double vx = 0.03375;
+    private double minX;
+    private double maxX;
     private int frame;
     private long timePassed;
     private double stepsPerSecond = 3;
@@ -26,7 +26,7 @@ public class Alien extends GameObject {
      * @param vx Velocity in px per second.
      * @param stepsPerSecond ...
      */
-    public Alien(int x, int y, int maxX, int vx, double stepsPerSecond) {
+    public Alien(double x, double y, double maxX, double vx, double stepsPerSecond) {
         super(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
         this.maxX = maxX;
         this.minX = x;
@@ -39,10 +39,10 @@ public class Alien extends GameObject {
     public void update(int timeDelta) {
         timePassed += timeDelta;
         if (timePassed >= 1000d / stepsPerSecond) {
-            int stride = (int) Math.round(vx / stepsPerSecond);
-            if (dir == 1 && x + stride > maxX) {
+            double stride = vx / stepsPerSecond;
+            if (dir == 1 && posX + stride > maxX) {
                 dir = -1;
-                y += ALIEN_HEIGHT;
+                posY += ALIEN_HEIGHT;
             } else if (dir == -1 && x - stride < minX) {
                 dir = 1;
                 y += ALIEN_HEIGHT;
