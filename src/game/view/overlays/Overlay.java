@@ -10,11 +10,9 @@ abstract public class Overlay {
     Font uniFont;
     Font largeFont;
     Font boldFont;
-    GameView view;
 
-    public Overlay(Font uniFont, GameView view) {
+    public Overlay(Font uniFont) {
         this.uniFont = uniFont;
-        this.view = view;
         // TODO font sizes must depend on game view dimension.
         largeFont = uniFont.deriveFont(50f);
         boldFont = uniFont.deriveFont(Font.BOLD, 30f);
@@ -29,11 +27,17 @@ abstract public class Overlay {
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2d.fillRect(0,0 , canvasWidth, canvasHeight);
         String title = "Space Invaders";
-        int xHalf = 250;
+        int xHalf = canvasWidth / 2;
         int yHalf = canvasHeight / 2;
         g2d.setColor(Color.cyan);
         g2d.setFont(largeFont);
-        g2d.drawString(title, xHalf,yHalf);
-        g2d.drawLine(xHalf,yHalf + 2, xHalf + view.getFontMetrics(largeFont).stringWidth(title), yHalf + 2);
+        drawStringCenter(g2d, title, yHalf, canvasWidth);
+        g2d.drawLine(xHalf,yHalf + 2, xHalf + g2d.getFontMetrics(largeFont).stringWidth(title), yHalf + 2);
+    }
+
+    protected void drawStringCenter(Graphics2D g2d, String screenText, int posY, int canvasWidth) {
+        int length = g2d.getFontMetrics().stringWidth(screenText);
+        int posX = (canvasWidth / 2) - (length / 2);
+        g2d.drawString(screenText, posX, posY);
     }
 }

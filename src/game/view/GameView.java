@@ -64,7 +64,7 @@ public class GameView extends JPanel implements ActionListener {
             largeFont = uniFont.deriveFont(50f);
             boldFont = uniFont.deriveFont(Font.BOLD, 30f);
             getGraphics().setFont(font);
-            startScreen = new StartScreen(uniFont, this);
+            startScreen = new StartScreen(uniFont);
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
