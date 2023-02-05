@@ -35,11 +35,13 @@ public class GameController implements KeyListener, ActionListener {
     private boolean pause = true;
     private int round = 1;
     private int points;
-    private double alienVx = 0.03375;
+    private double alienVx;
     private double alienSPS = 3;
     private long nextShipTimeMs;
     private long lastFrameTimeMs;
     private boolean spacePressed;
+
+    private final double GAME_WIDTH = 0.869767442;
 
     /**
      * Creates a new GameController instance.
@@ -51,6 +53,7 @@ public class GameController implements KeyListener, ActionListener {
         //hud = new GameHud();
         renderables.add(gun);
         //renderables.add(hud);
+        alienVx = GAME_WIDTH / (ROWS * COLS) / alienSPS;
         createAliens(alienVx, alienSPS);
         //setNextShipTime();
         //lastFrameTimeMs = System.currentTimeMillis();
