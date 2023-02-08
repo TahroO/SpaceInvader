@@ -35,8 +35,9 @@ public class GameController implements KeyListener, ActionListener {
     private boolean pause = true;
     private int round = 1;
     private int points;
+    private double alienSpacing = 0.013953488;
     private double alienVx;
-    private double alienSPS = 3;
+    private double alienSPS = 1;
     private long nextShipTimeMs;
     private long lastFrameTimeMs;
     private boolean spacePressed;
@@ -53,7 +54,7 @@ public class GameController implements KeyListener, ActionListener {
         //hud = new GameHud();
         renderables.add(gun);
         //renderables.add(hud);
-        alienVx = GAME_WIDTH / (ROWS * COLS) / alienSPS;
+        alienVx = calculateAlienVx(ROWS * COLS);
         createAliens(alienVx, alienSPS);
         //setNextShipTime();
         //lastFrameTimeMs = System.currentTimeMillis();
@@ -73,6 +74,11 @@ public class GameController implements KeyListener, ActionListener {
         view.setOverlay(GameView.OVERLAY_START);
     }
 
+    private double calculateAlienVx(int alienCount) {
+        double aliensWidth = COLS * (Alien.ALIEN_WIDTH + alienSpacing) - alienSpacing;
+        return ((GAME_WIDTH - aliensWidth) / 16d) * (ROWS * COLS / (double) alienCount);
+    }
+
     /**
      * Gets the current game view.
      *
@@ -86,9 +92,8 @@ public class GameController implements KeyListener, ActionListener {
     private void createAliens(double vx, double stepsPerSecond) {
         double margin = 0.136046512;
         double marginTop = 0.261627907;
-        double spacing = 0.013953488;
         double rowHeight = 0.077906977;
-        double stride = Alien.ALIEN_WIDTH + spacing;
+        double stride = Alien.ALIEN_WIDTH + alienSpacing;
         for (int row = 0; row < ROWS; row++) {
             double y = marginTop + row * rowHeight;
             for (int col = 0; col < COLS; col++) {
@@ -183,6 +188,7 @@ public class GameController implements KeyListener, ActionListener {
         //hud.setRound(round);
         createAliens(alienVx += 15, alienSPS *= 1.25);
     }
+    */
 
     private void detectCollisions() {
         if (bullet == null) {
@@ -196,11 +202,12 @@ public class GameController implements KeyListener, ActionListener {
                 aliens.remove(alien);
                 renderables.remove(alien);
                 points += 10;
-                hud.setPoints(points);
+                // hud.setPoints(points);
                 break;
             }
         }
         // Check ship collision with bullet.
+        /*
         if (ship != null && bullet != null && ship.detectCollision(bullet)) {
             renderables.remove(ship);
             ship = null;
@@ -208,9 +215,8 @@ public class GameController implements KeyListener, ActionListener {
             hud.setPoints(points);
             setNextShipTime();
         }
+        */
     }
-
-    */
 
     /**
      * Calculates and sets the next spawn time of a spaceship.

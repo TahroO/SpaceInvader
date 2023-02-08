@@ -3,6 +3,7 @@ package game.objects;
 import game.Renderable;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Base class for all game objects.
@@ -18,6 +19,7 @@ abstract public class GameObject implements Renderable {
      */
     protected double width, height;
     protected Dimension size;
+    protected Rectangle2D.Double bounds;
     /**
      * Sprite.
      */
@@ -28,17 +30,7 @@ abstract public class GameObject implements Renderable {
         posY = y;
         this.width = width;
         this.height = height;
-    }
-    /**
-     * Constructs a new GameObject instance with a given
-     * initial position.
-     * @param x Initial x-position.
-     * @param y Initial y-position.
-     */
-    public GameObject(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.size = new Dimension(width, height);
+        bounds = new Rectangle2D.Double();
     }
 
     /**
@@ -61,10 +53,10 @@ abstract public class GameObject implements Renderable {
      * Gets this game object's bounds.
      * @return Game object's bounds.
      */
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, size.width, size.height);
+    public Rectangle2D.Double getBounds() {
+        bounds.setRect(posX, posY, width, height);
+        return bounds;
     }
-
 
     /**
      * Checks if this GameObject collides with another one.

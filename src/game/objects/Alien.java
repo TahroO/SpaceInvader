@@ -30,6 +30,7 @@ public class Alien extends GameObject {
         this.stepsPerSecond = stepsPerSecond;
     }
 
+
     public int getDir() {
         return dir;
     }
@@ -39,11 +40,15 @@ public class Alien extends GameObject {
         posY += ALIEN_HEIGHT;
     }
 
+    public void move(double delta) {
+        posX = dir * delta;
+    }
+
     @Override
     public void update(int timeDelta) {
         timePassed += timeDelta;
         if (timePassed >= 1000d / stepsPerSecond) {
-            double stride = vx / stepsPerSecond;
+            double stride = vx * stepsPerSecond;
             posX += dir * stride;
             timePassed = (int) (timePassed - 1000d / stepsPerSecond);
         }
