@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameController implements KeyListener, ActionListener {
@@ -54,8 +55,8 @@ public class GameController implements KeyListener, ActionListener {
         //hud = new GameHud();
         renderables.add(gun);
         //renderables.add(hud);
-        alienVx = calculateAlienVx(ROWS * COLS);
         createAliens(alienVx, alienSPS);
+        updateAlienVx();
         //setNextShipTime();
         //lastFrameTimeMs = System.currentTimeMillis();
     }
@@ -74,9 +75,15 @@ public class GameController implements KeyListener, ActionListener {
         view.setOverlay(GameView.OVERLAY_START);
     }
 
-    private double calculateAlienVx(int alienCount) {
+    private void updateAlienVx() {
+        double scale = ROWS * COLS / (double) aliens.size();
         double aliensWidth = COLS * (Alien.ALIEN_WIDTH + alienSpacing) - alienSpacing;
-        return ((GAME_WIDTH - aliensWidth) / 16d) * (ROWS * COLS / (double) alienCount);
+        double alienVx = ((GAME_WIDTH - aliensWidth) / 16d) * scale;
+        double stepsPerSecond = 1 * scale;
+        aliens.forEach(alien -> {
+            alien.setVx(alienVx);
+            alien.setStepsPerSecond(stepsPerSecond);
+        });
     }
 
     /**
@@ -202,6 +209,7 @@ public class GameController implements KeyListener, ActionListener {
                 aliens.remove(alien);
                 renderables.remove(alien);
                 points += 10;
+                updateAlienVx();
                 // hud.setPoints(points);
                 break;
             }

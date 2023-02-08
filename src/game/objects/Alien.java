@@ -30,6 +30,13 @@ public class Alien extends GameObject {
         this.stepsPerSecond = stepsPerSecond;
     }
 
+    public void setStepsPerSecond(double stepsPerSecond) {
+        this.stepsPerSecond = stepsPerSecond;
+    }
+
+    public void setVx(double vx) {
+        this.vx = vx;
+    }
 
     public int getDir() {
         return dir;
