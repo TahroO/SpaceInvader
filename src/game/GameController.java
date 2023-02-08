@@ -129,7 +129,7 @@ public class GameController implements KeyListener, ActionListener {
             // TODO update in reverse order?
             renderables.forEach(renderable -> renderable.update(lastFrameDelta));
             //updateSpaceShip(currentTimeMs);
-            //detectCollisions();
+            detectCollisions();
             // Check next level.
             if (aliens.isEmpty()) {
                 //nextRound();
