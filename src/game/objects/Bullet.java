@@ -21,8 +21,7 @@ public class Bullet extends GameObject {
 
     @Override
     public void update(int timeDelta) {
-        double t = (vy / 1000d) * timeDelta;
-        posY -= t;
+        posY -= vy / 1000d * timeDelta;
     }
 
     @Override

@@ -8,19 +8,19 @@ import java.awt.*;
  * Represents a spaceship.
  */
 public class Spaceship extends GameObject {
-    public static final int SHIP_WIDTH = 80;
-    public static final int SHIP_HEIGHT = 30;
+    public static final double SHIP_WIDTH = 0.1;
+    public static final double SHIP_HEIGHT = 0.0375;
     private final int dir;
-    private final int vx;
+    private final double vx;
 
     /**
      * Creates a new SpaceShip instance.
-     * @param x
-     * @param y
-     * @param vx
-     * @param dir
+     * @param x Object x-position.
+     * @param y Object y-position.
+     * @param vx Horizontal velocity.
+     * @param dir Direction of movement (1 ltr, -1 rtl).
      */
-    public Spaceship(int x, int y, int vx, int dir) {
+    public Spaceship(double x, double y, double vx, int dir) {
         super(x, y, SHIP_WIDTH, SHIP_HEIGHT);
         this.vx = vx;
         this.dir = dir;
@@ -32,11 +32,11 @@ public class Spaceship extends GameObject {
      * @return A SpaceShip object.
      */
     public static Spaceship startShip(int dir) {
-        int y = 35;
-        int vx = 133;
-        int x = -Spaceship.SHIP_WIDTH;
+        double y = 0.04375;
+        double vx = 0.16625;
+        double x = -Spaceship.SHIP_WIDTH;
         if (dir < 0) {
-            x = GameView.WIDTH + Spaceship.SHIP_WIDTH;
+            x = 1d + Spaceship.SHIP_WIDTH;
         }
         return new Spaceship(x, y, vx, dir);
     }
@@ -51,14 +51,18 @@ public class Spaceship extends GameObject {
 
     @Override
     public void update(int timeDelta) {
-        int t = (int) Math.ceil((vx / 1000d) * timeDelta);
-        x += dir * t;
+        posX += dir * vx / 1000d * timeDelta;
     }
 
     @Override
     public void draw(Graphics2D g2d, int canvasWidth, int canvasHeight) {
-        g2d.setColor(Color.CYAN);
-        g2d.fillOval(x, y, SHIP_WIDTH, SHIP_HEIGHT);
+        g2d.setColor(Color.RED);
+        g2d.fillOval(
+                toPixel(canvasWidth, posX),
+                toPixel(canvasHeight, posY),
+                toPixel(canvasWidth, SHIP_WIDTH),
+                toPixel(canvasHeight, SHIP_HEIGHT)
+        );
     }
 
 }

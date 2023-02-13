@@ -19,6 +19,7 @@ import java.util.Map;
  * Game view takes care of drawing everything.
  */
 public class GameView extends JPanel implements ActionListener {
+    public static final int SCALE = 800;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
     public static final int OVERLAY_NONE = 0;
@@ -28,16 +29,15 @@ public class GameView extends JPanel implements ActionListener {
 
     private int overlay;
     private Overlay startScreen;
-
     private Overlay pauseScreen;
     private Overlay gameOverScreen;
-
     private final RenderingHints renderingHints;
-    private Font font;
 
-    // TODO not so nice.
+    // TODO public?
+    private Font font;
     public Font largeFont;
     public Font boldFont;
+
     private final ArrayList<Renderable> renderables;
 
     /**
@@ -59,7 +59,7 @@ public class GameView extends JPanel implements ActionListener {
     }
 
     /**
-     * Initializes this game surface.
+     * Initializes the view.
      */
     public void init() {
         InputStream fontIs = this.getClass().getResourceAsStream("/resources/fonts/vt323-v17-latin-regular.ttf");
@@ -79,7 +79,6 @@ public class GameView extends JPanel implements ActionListener {
 
     /**
      * Calls draw() on every renderable object.
-     *
      * @param g A Graphics object.
      */
     private void draw(Graphics g) {
@@ -99,6 +98,12 @@ public class GameView extends JPanel implements ActionListener {
             case OVERLAY_OVER -> gameOverScreen.draw(g2d, getWidth(), getHeight());
         }
     }
+
+    /**
+     * Sets the overlay to be drawn.
+     *
+     * @param overlay
+     */
     public void setOverlay(int overlay) {
         this.overlay = overlay;
     }

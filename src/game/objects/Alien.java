@@ -1,6 +1,8 @@
 package game.objects;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Represents an Alien entity.
@@ -8,12 +10,10 @@ import java.awt.*;
 public class Alien extends GameObject {
     public static final double ALIEN_WIDTH = 0.053488372;
     public static final double ALIEN_HEIGHT = 0.043023256;
+    public static final double ALIEN_SPACING = 0.013953488;
 
     private int dir = 1;
-    private final Color COLOR = Color.decode("#ffffff");
-    // PX per second.
     private double vx;
-    private int frame;
     private long timePassed;
     private double stepsPerSecond;
 
@@ -21,35 +21,65 @@ public class Alien extends GameObject {
      *  Creates a new Alien object.
      * @param x X-position (in px) on panel.
      * @param y Y-position (in px) on panel.
-     * @param vx Velocity in px per second.
-     * @param stepsPerSecond ...
      */
-    public Alien(double x, double y, double vx, double stepsPerSecond) {
+    public Alien(double x, double y) {
         super(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
-        this.vx = vx;
-        this.stepsPerSecond = stepsPerSecond;
     }
 
+    /**
+     * Sets the number of movements per second an alien makes.
+     * @param stepsPerSecond Number of movements per second.
+     */
     public void setStepsPerSecond(double stepsPerSecond) {
         this.stepsPerSecond = stepsPerSecond;
     }
 
-    public void setVx(double vx) {
+    /**
+     * Sets horizontal velocity.
+     * @param vx Velocity in units per second.
+     */
+    public void setVelocity(double vx) {
         this.vx = vx;
     }
 
+    /**
+     * Gets horizontal movement direction.
+     * @return 1 = left to right, -1 = right to left.
+     */
     public int getDir() {
         return dir;
     }
 
+    /**
+     * Switches direction of movement.
+     */
     public void switchDirection() {
         dir *= -1;
         posY += ALIEN_HEIGHT;
     }
 
-    public void move(double delta) {
-        posX = dir * delta;
+    /**
+     * Creates a new set of alien objects.
+     * @param rows Number of rows to create.
+     * @param cols Number of columns to create.
+     * @return Collection of newly created alien objects.
+     */
+    public static Collection<Alien> createAlienGang(int rows, int cols) {
+        double margin = 0.136046512;
+        double marginTop = 0.261627907;
+        double rowHeight = 0.077906977;
+        double stride = ALIEN_WIDTH + ALIEN_SPACING;
+        Collection<Alien> aliens = new ArrayList<>();
+        for (int row = 0; row < rows; row++) {
+            double y = marginTop + row * rowHeight;
+            for (int col = 0; col < cols; col++) {
+                double x = margin + col * stride;
+                aliens.add(new Alien(x, y));
+            }
+        }
+        return aliens;
     }
+
 
     @Override
     public void update(int timeDelta) {
@@ -63,7 +93,7 @@ public class Alien extends GameObject {
 
     @Override
     public void draw(Graphics2D g2d, int canvasWidth, int canvasHeight) {
-        g2d.setColor(COLOR);
+        g2d.setColor(Color.WHITE);
         g2d.fillRect(
                 toPixel(canvasWidth, posX),
                 toPixel(canvasWidth, posY),

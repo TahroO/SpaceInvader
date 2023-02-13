@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Random;
 
 public class GameController implements KeyListener, ActionListener {
@@ -36,9 +36,6 @@ public class GameController implements KeyListener, ActionListener {
     private boolean pause = true;
     private int round = 1;
     private int points;
-    private double alienSpacing = 0.013953488;
-    private double alienVx;
-    private double alienSPS = 1;
     private long nextShipTimeMs;
     private long lastFrameTimeMs;
     private boolean spacePressed;
@@ -55,10 +52,9 @@ public class GameController implements KeyListener, ActionListener {
         //hud = new GameHud();
         renderables.add(gun);
         //renderables.add(hud);
-        createAliens(alienVx, alienSPS);
-        updateAlienVx();
-        //setNextShipTime();
-        //lastFrameTimeMs = System.currentTimeMillis();
+        createAlienGang();
+        setNextShipTime();
+        lastFrameTimeMs = System.currentTimeMillis();
     }
 
     /**
@@ -75,41 +71,46 @@ public class GameController implements KeyListener, ActionListener {
         view.setOverlay(GameView.OVERLAY_START);
     }
 
-    private void updateAlienVx() {
-        double scale = ROWS * COLS / (double) aliens.size();
-        double aliensWidth = COLS * (Alien.ALIEN_WIDTH + alienSpacing) - alienSpacing;
-        double alienVx = ((GAME_WIDTH - aliensWidth) / 16d) * scale;
-        double stepsPerSecond = 1 * scale;
+    /**
+     * Creates a new alien gang.
+     */
+    private void createAlienGang() {
+        Collection<Alien> newAliens = Alien.createAlienGang(ROWS, COLS);
+        aliens.addAll(newAliens);
+        renderables.addAll(newAliens);
+        updateAlienVelocity();
+    }
+
+    /**
+     * Calculates alien velocity.
+     * @param alienCount Number of aliens alive.
+     * @return Alien velocity.
+     */
+    private double getAlienVelocity(int alienCount) {
+        double scale = ROWS * COLS / (double) alienCount;
+        double aliensWidth = COLS * (Alien.ALIEN_WIDTH + Alien.ALIEN_SPACING) - Alien.ALIEN_SPACING;
+        return (GAME_WIDTH - aliensWidth) / 16d * scale;
+    }
+
+    /**
+     * Sets new velocity on every alien.
+     */
+    private void updateAlienVelocity() {
+        // TODO scale vx with number of rounds played.
+        double alienVx = getAlienVelocity(aliens.size());
+        double stepsPerSecond = 1;
         aliens.forEach(alien -> {
-            alien.setVx(alienVx);
+            alien.setVelocity(alienVx);
             alien.setStepsPerSecond(stepsPerSecond);
         });
     }
 
     /**
      * Gets the current game view.
-     *
      * @return A game view object.
      */
     public GameView getView() {
         return view;
-    }
-
-    // TODO move to Alien class static method.
-    private void createAliens(double vx, double stepsPerSecond) {
-        double margin = 0.136046512;
-        double marginTop = 0.261627907;
-        double rowHeight = 0.077906977;
-        double stride = Alien.ALIEN_WIDTH + alienSpacing;
-        for (int row = 0; row < ROWS; row++) {
-            double y = marginTop + row * rowHeight;
-            for (int col = 0; col < COLS; col++) {
-                double x = margin + col * stride;
-                Alien alien = new Alien(x, y, vx, stepsPerSecond);
-                aliens.add(alien);
-                renderables.add(alien);
-            }
-        }
     }
 
     /**
@@ -135,17 +136,20 @@ public class GameController implements KeyListener, ActionListener {
             updateAliens();
             // TODO update in reverse order?
             renderables.forEach(renderable -> renderable.update(lastFrameDelta));
-            //updateSpaceShip(currentTimeMs);
+            updateSpaceShip(currentTimeMs);
             detectCollisions();
             // Check next level.
             if (aliens.isEmpty()) {
-                //nextRound();
+                nextRound();
             }
         }
         //hud.update(lastFrameDelta);
         lastFrameTimeMs = currentTimeMs;
     }
 
+    /**
+     * Updates the alien gang (switches direction).
+     */
     private void updateAliens() {
         double edgeRight = 1 - 0.065116279;
         double edgeLeft = 0.065116279;
@@ -158,8 +162,12 @@ public class GameController implements KeyListener, ActionListener {
         }
     }
 
+    /**
+     * Updates player bullet.
+     */
     private void updateBullet() {
-        // Update bullet.
+        // TODO a game object can now determine on its own, if it has left the view.
+        // TODO move to Bullet.java.
         if (bullet == null && spacePressed) {
             bullet = new Bullet(gun.getX() + (Gun.GUN_WIDTH - Bullet.BULLET_WITH) / 2, gun.getY() - Bullet.BULLET_HEIGHT);
             renderables.add(bullet);
@@ -170,14 +178,18 @@ public class GameController implements KeyListener, ActionListener {
         }
     }
 
-    /*
+    /**
+     * Updates the space ship.
+     * @param currentTimeMs
+     */
     private void updateSpaceShip(long currentTimeMs) {
+        // TODO ship can update itself in SpaceShip.java.
         // Start or update ship.
         if (ship != null) {
-            int shipX = ship.getX();
+            double shipX = ship.getX();
             int shipDirection = ship.getDirection();
             // Ship hat fenster verlassen?
-            if (shipX > GameView.WIDTH && shipDirection == 1
+            if (shipX > 1 && shipDirection == 1
                     || shipX < -Spaceship.SHIP_WIDTH && shipDirection == -1
             ) {
                 renderables.remove(this.ship);
@@ -189,14 +201,18 @@ public class GameController implements KeyListener, ActionListener {
         }
     }
 
-
+    /**
+     * Next round.
+     */
     private void nextRound() {
         round += 1;
+        createAlienGang();
         //hud.setRound(round);
-        createAliens(alienVx += 15, alienSPS *= 1.25);
     }
-    */
 
+    /**
+     * Detects collision of game objects.
+     */
     private void detectCollisions() {
         if (bullet == null) {
             return;
@@ -209,21 +225,19 @@ public class GameController implements KeyListener, ActionListener {
                 aliens.remove(alien);
                 renderables.remove(alien);
                 points += 10;
-                updateAlienVx();
+                updateAlienVelocity();
                 // hud.setPoints(points);
                 break;
             }
         }
         // Check ship collision with bullet.
-        /*
         if (ship != null && bullet != null && ship.detectCollision(bullet)) {
             renderables.remove(ship);
             ship = null;
             points += 50;
-            hud.setPoints(points);
+            // hud.setPoints(points);
             setNextShipTime();
         }
-        */
     }
 
     /**
@@ -232,7 +246,6 @@ public class GameController implements KeyListener, ActionListener {
     private void setNextShipTime() {
         this.nextShipTimeMs = System.currentTimeMillis() + rng.nextLong(10000, 20001);
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
