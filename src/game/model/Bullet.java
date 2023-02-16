@@ -1,4 +1,4 @@
-package game.objects;
+package game.model;
 
 /**
  * Represents a bullet game object.

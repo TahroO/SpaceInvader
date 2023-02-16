@@ -1,6 +1,6 @@
 package game;
 
-import game.objects.*;
+import game.model.*;
 import game.view.GamePanel;
 
 import javax.swing.*;
@@ -186,7 +186,7 @@ public class GameController implements KeyListener, ActionListener {
         if (ship != null) {
             double shipX = ship.getX();
             int shipDirection = ship.getDirection();
-            // Ship hat fenster verlassen?
+            // Ship left game area?
             if (shipX > 1 && shipDirection == 1
                     || shipX < -Spaceship.SHIP_WIDTH && shipDirection == -1
             ) {

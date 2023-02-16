@@ -1,7 +1,7 @@
 package game.view;
 
 import game.GameController;
-import game.objects.Renderable;
+import game.model.Renderable;
 import game.view.objects.Alien;
 import game.view.overlays.GameOverScreen;
 import game.view.overlays.Overlay;
@@ -30,7 +30,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
     public static final int HEIGHT = 800;
 
     private GameController controller;
-    private GameFrame frame;
     private Map<Integer, Overlay> overlays;
     private Overlay overlay;
     private final RenderingHints renderingHints;
@@ -128,7 +127,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
     }
 
     private void drawGameObject(Graphics2D g2d, Renderable gameObject, int offsetX, int offsetY, int scale) {
-        if (gameObject instanceof game.objects.Alien) {
+        if (gameObject instanceof game.model.Alien) {
             Alien.getInstance().draw(g2d, gameObject, offsetX, offsetY, scale);
         } else {
             g2d.setColor(Color.WHITE);

@@ -1,6 +1,6 @@
 package game.view.objects;
 
-import game.objects.Renderable;
+import game.model.Renderable;
 
 import java.awt.*;
 
