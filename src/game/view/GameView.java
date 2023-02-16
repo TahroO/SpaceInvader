@@ -5,6 +5,7 @@ public interface GameView {
     int OVERLAY_START = 1;
     int OVERLAY_PAUSE = 2;
     int OVERLAY_GAME_OVER = 3;
+    int OVERLAY_COUNTER = 4;
 
     /**
      * Sets the overlay to be drawn.

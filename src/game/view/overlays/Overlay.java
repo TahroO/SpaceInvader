@@ -16,40 +16,33 @@ abstract public class Overlay {
         boldFont = uniFont.deriveFont(Font.BOLD, 30f);
     }
 
-    public void draw(Graphics2D g2d, int offsetX, int offsetY, int scale) {
-        drawScreen(g2d, offsetX, offsetY, scale);
+    public void draw(Graphics2D g2d, int offsetX, int offsetY, int gameSize) {
+        drawBackground(g2d, offsetX, offsetY, gameSize);
     }
 
-    private void drawScreen(Graphics2D g2d, int offsetX, int offsetY, int gameSize) {
-        g2d.setColor(Color.black);
+    protected void drawBackground(Graphics2D g2d, int offsetX, int offsetY, int gameSize) {
+        g2d.setColor(Color.GREEN);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2d.fillRect(offsetX, offsetY, gameSize, gameSize);
-        String title = "Space Invaders";
+    }
+
+    protected void drawString(Graphics2D g2d, String screenText, int posX, int posY, int offsetX, int offsetY, int gameSize) {
         AffineTransform tx1 = new AffineTransform();
         double scaleFactor = gameSize / 800d;
         double translationX = offsetX * (1d / scaleFactor - 1d);
         double translationY = offsetY * (1d / scaleFactor - 1d);
         tx1.scale(scaleFactor, scaleFactor);
         tx1.translate(translationX, translationY);
+        AffineTransform oldTransform = g2d.getTransform();
         g2d.setTransform(tx1);
         g2d.setColor(Color.CYAN);
-        g2d.fillRect(offsetX, offsetY,100,100);
-        //g2d.drawString(title, 100, 100);
-//        int yHalf = offsetY / 2;
-//        g2d.setColor(Color.cyan);
-//        g2d.setFont(largeFont);
-//        AffineTransform tx1 = new AffineTransform();
-//        //tx1.translate(110, 20);
-//        double scaleFactor = 1d;
-//        tx1.scale(scaleFactor, scaleFactor);
-//        g2d.setTransform(tx1);
-//        drawStringCenter(g2d, title, yHalf, offsetX, scaleFactor);
+        g2d.drawString(screenText, posX, posY);
+        g2d.setTransform(oldTransform);
     }
 
-
-   protected void drawStringCenter(Graphics2D g2d, String screenText, int posY, int canvasWidth, double scaleFactor) {
+   protected void drawStringCenter(Graphics2D g2d, String screenText, int posY, int offsetX, int offsetY, int gameSize) {
         int length = g2d.getFontMetrics().stringWidth(screenText);
-        int posX = (int) Math.round((canvasWidth / 2) - (length / 2) * scaleFactor);
-        g2d.drawString(screenText, posX, posY);
+        int posX = (int) Math.round((800 / 2d) - (length / 2d) + offsetX);
+        drawString(g2d, screenText, posX, posY, offsetX, offsetY, gameSize);
     }
 }
