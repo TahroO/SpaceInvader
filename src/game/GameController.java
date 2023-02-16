@@ -2,6 +2,7 @@ package game;
 
 import game.model.*;
 import game.view.GamePanel;
+import game.view.GameView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -143,6 +144,7 @@ public class GameController implements KeyListener, ActionListener {
         }
         //hud.update(lastFrameDelta);
         lastFrameTimeMs = currentTimeMs;
+        //view.setOverlay(GameView.OVERLAY_COUNTER);
     }
 
     /**

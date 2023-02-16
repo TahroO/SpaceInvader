@@ -3,10 +3,7 @@ package game.view;
 import game.GameController;
 import game.model.Model;
 import game.view.objects.Alien;
-import game.view.overlays.GameOverScreen;
-import game.view.overlays.Overlay;
-import game.view.overlays.PauseScreen;
-import game.view.overlays.StartScreen;
+import game.view.overlays.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,6 +36,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
     private ArrayList<Model> renderables = new ArrayList<>();
     private int points;
     private int round;
+    private HudTop counter;
 
     /**
      * Creates a new GameView instance.
@@ -77,6 +75,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
             overlays.put(OVERLAY_START, new StartScreen(uniFont));
             overlays.put(OVERLAY_PAUSE, new PauseScreen(uniFont));
             overlays.put(OVERLAY_GAME_OVER, new GameOverScreen(uniFont));
+            counter = new HudTop(uniFont);
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -142,18 +141,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         }
     }
 
-    private void drawTopHud(Graphics2D g2d, int offsetX, int offsetY, int width, int height) {
-        g2d.setColor(Color.GRAY);
-        g2d.fillRect(offsetX, offsetY, width, height);
-        String pointCounter = "Points: " + points;
-        g2d.setFont(boldFont);
-        g2d.setColor(Color.CYAN);
-        //g2d.drawString(pointCounter, offsetX + 100, offsetY + 100);
+    private void drawTopHud(Graphics2D g2d, int offsetX, int offsetY, int gameSize, int height) {
+        if (counter != null) {
+            counter.draw(g2d, offsetX, 0, gameSize);
+        }
     }
 
     private void drawBottomHud(Graphics2D g2d, int offsetX, int offsetY, int width, int height) {
-        g2d.setColor(Color.GRAY);
-        g2d.fillRect(offsetX, offsetY, width, height);
+        //g2d.setColor(Color.GRAY);
+        //g2d.fillRect(offsetX, offsetY, width, height);
     }
 
     private void drawGame(Graphics2D g2d, int offsetX, int offsetY, int scale) {
