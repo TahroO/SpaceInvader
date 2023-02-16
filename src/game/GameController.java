@@ -222,7 +222,7 @@ public class GameController implements KeyListener, ActionListener {
                 bullet = null;
                 aliens.remove(alien);
                 renderables.remove(alien);
-                points += 10;
+                points += alien.getPoints();
                 updateAlienVelocity();
                 // hud.setPoints(points);
                 break;

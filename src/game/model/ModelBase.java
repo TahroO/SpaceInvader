@@ -65,6 +65,10 @@ abstract public class ModelBase implements Model {
         return state == State.DEAD;
     }
 
+    public int getPoints() {
+        return 0;
+    }
+
     /**
      * Checks if this GameObject collides with another one.
      *

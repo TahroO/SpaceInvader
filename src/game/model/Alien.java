@@ -67,6 +67,15 @@ public class Alien extends ModelBase {
         posY += ALIEN_HEIGHT;
     }
 
+    @Override
+    public int getPoints() {
+        return switch (alienType) {
+            case TOP -> 30;
+            case MIDDLE -> 20;
+            default -> 10;
+        };
+    }
+
     /**
      * Creates a new set of alien objects.
      * @param rows Number of rows to create.

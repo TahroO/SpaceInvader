@@ -21,4 +21,5 @@ public interface Model {
 
     boolean isDead();
 
+    int getPoints();
 }
