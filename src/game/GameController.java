@@ -23,7 +23,7 @@ public class GameController implements KeyListener, ActionListener {
     private final GamePanel view;
 
     // Game objects.
-    private final List<Renderable> renderables;
+    private final List<Model> renderables;
     private final List<Alien> aliens = new ArrayList<>();
     private final Gun gun;
     //private final GameHud hud;

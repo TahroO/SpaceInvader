@@ -3,7 +3,7 @@ package game.model;
 /**
  * Represents a spaceship.
  */
-public class Spaceship extends GameObject {
+public class Spaceship extends ModelBase {
     public static final double SHIP_WIDTH = 0.1;
     public static final double SHIP_HEIGHT = 0.0375;
     private final int dir;

@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Base class for all game objects.
  */
-abstract public class GameObject implements Renderable {
+abstract public class ModelBase implements Model {
     /**
      * Object's current x and y position.
      */
@@ -25,7 +25,7 @@ abstract public class GameObject implements Renderable {
      * @param width  Object width.
      * @param height Object height.
      */
-    public GameObject(double x, double y, double width, double height) {
+    public ModelBase(double x, double y, double width, double height) {
         posX = x;
         posY = y;
         this.width = width;
@@ -71,7 +71,7 @@ abstract public class GameObject implements Renderable {
      * @param other The other GameObject.
      * @return True, if collision has been detected. False otherwise.
      */
-    public boolean detectCollision(GameObject other) {
+    public boolean detectCollision(ModelBase other) {
         return this.getBounds().intersects(other.getBounds());
     }
 

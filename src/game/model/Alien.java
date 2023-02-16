@@ -6,7 +6,7 @@ import java.util.Collection;
 /**
  * Represents an Alien entity.
  */
-public class Alien extends GameObject {
+public class Alien extends ModelBase {
     public static final double ALIEN_WIDTH = 0.053488372;
     public static final double ALIEN_HEIGHT = 0.043023256;
     public static final double ALIEN_SPACING = 0.013953488;

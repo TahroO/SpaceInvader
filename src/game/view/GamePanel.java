@@ -1,7 +1,7 @@
 package game.view;
 
 import game.GameController;
-import game.model.Renderable;
+import game.model.Model;
 import game.view.objects.Alien;
 import game.view.overlays.GameOverScreen;
 import game.view.overlays.Overlay;
@@ -26,9 +26,6 @@ import java.util.Map;
  * Game view takes care of drawing everything.
  */
 public class GamePanel extends JPanel implements ActionListener, KeyListener, GameView {
-    public static final int WIDTH = 600;
-    public static final int HEIGHT = 800;
-
     private GameController controller;
     private Map<Integer, Overlay> overlays;
     private Overlay overlay;
@@ -39,16 +36,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
     public Font largeFont;
     public Font boldFont;
 
-    private ArrayList<Renderable> renderables = new ArrayList<>();
+    private ArrayList<Model> renderables = new ArrayList<>();
 
     /**
      * Creates a new GameView instance.
      */
-    public GamePanel() {
+    public GamePanel(int width, int height) {
         super();
         // Configure JPanel.
-        setSize(WIDTH, HEIGHT);
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setSize(width, height);
+        setPreferredSize(new Dimension(width, height));
         setBackground(new Color(30, 30, 30));
         setFocusable(true);
         setDoubleBuffered(true);
@@ -81,7 +78,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         }
     }
 
-    public List<Renderable> getRenderables() {
+    public List<Model> getRenderables() {
         return renderables;
     }
 
@@ -126,7 +123,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         }
     }
 
-    private void drawGameObject(Graphics2D g2d, Renderable gameObject, int offsetX, int offsetY, int scale) {
+    private void drawGameObject(Graphics2D g2d, Model gameObject, int offsetX, int offsetY, int scale) {
         if (gameObject instanceof game.model.Alien) {
             Alien.getInstance().draw(g2d, gameObject, offsetX, offsetY, scale);
         } else {
@@ -157,7 +154,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         g2d.setColor(Color.WHITE);
         // Draw game objects in reverse order.
         for (int i = renderables.size() - 1; i >= 0; i--) {
-            Renderable gameObject = renderables.get(i);
+            Model gameObject = renderables.get(i);
             //gameObject.draw(g2d, offsetX, offsetY, scale);
             drawGameObject(g2d, gameObject, offsetX, offsetY, scale);
         }

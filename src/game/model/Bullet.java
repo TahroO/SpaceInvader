@@ -3,7 +3,7 @@ package game.model;
 /**
  * Represents a bullet game object.
  */
-public class Bullet extends GameObject {
+public class Bullet extends ModelBase {
     public static final double BULLET_WITH = 1 / 200d;
     public static final double BULLET_HEIGHT = 1 / 60d;
     private double vy = 0.375;

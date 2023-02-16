@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 /**
  * Represents the player's gun.
  */
-public class Gun extends GameObject implements KeyListener {
+public class Gun extends ModelBase implements KeyListener {
     public static final double GUN_WIDTH = 0.058139535;
     public static final double GUN_HEIGHT = 0.026744186;
     protected final int DIR_RIGHT = 1;
