@@ -104,6 +104,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         int hudTopHeight, hudBottomHeight;
         int gameSize;
         int x, y;
+        boolean dings = true;
         if (componentWidth >= Math.round(componentHeight * 0.75)) {
             gameSize = (int) Math.round(componentHeight * 0.75);
             hudTopHeight = (int) Math.round((componentHeight - gameSize) * 0.5);
@@ -111,6 +112,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
             x = (int) Math.round((componentWidth - gameSize) / 2);
             y = 0;
         } else {
+            dings = false;
             gameSize = (int) componentWidth;
             hudTopHeight = (int) Math.round(componentWidth / 75 * 12.5);
             hudBottomHeight = hudTopHeight;
@@ -123,7 +125,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         drawGame(g2d, x, y + hudTopHeight, gameSize);
 
         if (overlay != null) {
-            overlay.draw(g2d, getWidth(), getHeight());
+            overlay.draw(g2d, x, y + hudTopHeight, gameSize);
         }
     }
 
@@ -148,7 +150,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         String pointCounter = "Points: " + points;
         g2d.setFont(boldFont);
         g2d.setColor(Color.CYAN);
-        g2d.drawString(pointCounter, offsetX + 100, offsetY + 100);
+        //g2d.drawString(pointCounter, offsetX + 100, offsetY + 100);
     }
 
     private void drawBottomHud(Graphics2D g2d, int offsetX, int offsetY, int width, int height) {
