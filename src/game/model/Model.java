@@ -21,5 +21,13 @@ public interface Model {
 
     boolean isDead();
 
+    boolean isAlive();
+
     int getPoints();
+
+    enum State {
+        DEAD,
+        DYING,
+        ALIVE
+    }
 }

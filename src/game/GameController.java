@@ -219,21 +219,23 @@ public class GameController implements KeyListener, ActionListener {
         for (Alien alien : aliens) {
             if (alien.detectCollision(bullet)) {
                 renderables.remove(bullet);
-                bullet = null;
-                aliens.remove(alien);
                 renderables.remove(alien);
+                aliens.remove(alien);
                 points += alien.getPoints();
+                bullet = null;
+                view.setPoints(points);
                 updateAlienVelocity();
-                // hud.setPoints(points);
                 break;
             }
         }
         // Check ship collision with bullet.
         if (ship != null && bullet != null && ship.detectCollision(bullet)) {
             renderables.remove(ship);
+            renderables.remove(bullet);
+            points += ship.getPoints();
+            bullet = null;
             ship = null;
-            points += 50;
-            // hud.setPoints(points);
+            view.setPoints(points);
             setNextShipTime();
         }
     }

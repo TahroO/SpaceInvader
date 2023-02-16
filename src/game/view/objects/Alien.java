@@ -10,6 +10,17 @@ public class Alien extends DrawableBase {
 
     private Alien() {}
 
+    private int[][] g = {
+            {0, 0, 0, 1, 1, 0, 0, 0},
+            {0, 0, 1, 1, 1, 1, 0, 0},
+            {0, 1, 1, 1, 1, 1, 1, 0},
+            {1, 1, 0, 1, 1, 0, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1},
+            {0, 0, 1, 0, 0, 1, 0, 0},
+            {0, 1, 0, 1, 1, 0, 1, 0},
+            {1, 0, 1, 0, 0, 1, 0, 1},
+    };
+
     @Override
     public void draw(Graphics2D g2d, Model gameObject, int offsetX, int offsetY, int scale) {
         Rectangle2D.Double bounds = gameObject.getBounds();
@@ -26,6 +37,10 @@ public class Alien extends DrawableBase {
                 toPixel(scale, bounds.width),
                 toPixel(scale, bounds.height)
         );
+    }
+
+    public void  drawMatrix(int[][] matrix) {
+
     }
 
     public static Alien getInstance() {

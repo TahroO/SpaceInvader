@@ -37,6 +37,11 @@ public class Spaceship extends ModelBase {
         return new Spaceship(x, y, vx, dir);
     }
 
+    @Override
+    public int getPoints() {
+        return 50;
+    }
+
     /**
      * Gets spaceship's current direction.
      * @return Either -1 when direction is right to left or 1 for left to right.

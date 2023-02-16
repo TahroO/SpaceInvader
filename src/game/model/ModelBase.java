@@ -65,6 +65,11 @@ abstract public class ModelBase implements Model {
         return state == State.DEAD;
     }
 
+    @Override
+    public boolean isAlive() {
+        return state != State.DEAD;
+    }
+
     public int getPoints() {
         return 0;
     }
@@ -88,11 +93,6 @@ abstract public class ModelBase implements Model {
      */
     protected int toPixel(int scale, double value) {
         return (int) Math.round(scale * value);
-    }
-
-    public enum State {
-        ALIVE,
-        DEAD
     }
 
 }
