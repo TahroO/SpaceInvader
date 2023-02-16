@@ -1,7 +1,5 @@
 package game.objects;
 
-import java.awt.*;
-
 /**
  * Represents a bullet game object.
  */
@@ -22,17 +20,6 @@ public class Bullet extends GameObject {
     @Override
     public void update(int timeDelta) {
         posY -= vy / 1000d * timeDelta;
-    }
-
-    @Override
-    public void draw(Graphics2D g2d, int canvasWidth, int canvasHeight) {
-        g2d.setColor(Color.PINK);
-        g2d.fillRect(
-                toPixel(canvasWidth, posX),
-                toPixel(canvasHeight, posY),
-                toPixel(canvasWidth, width),
-                toPixel(canvasHeight, height)
-        );
     }
 
 }

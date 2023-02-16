@@ -1,8 +1,5 @@
 package game.view.overlays;
 
-import game.objects.GameObject;
-import game.view.GameView;
-
 import java.awt.*;
 
 abstract public class Overlay {

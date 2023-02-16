@@ -48,17 +48,6 @@ public class Gun extends GameObject implements KeyListener {
     }
 
     @Override
-    public void draw(Graphics2D g, int canvasWidth, int canvasHeight) {
-        g.setColor(COLOR);
-        g.fillRect(
-                toPixel(canvasWidth, posX),
-                toPixel(canvasWidth, posY),
-                toPixel(canvasWidth, width),
-                toPixel(canvasWidth, height)
-        );
-    }
-
-    @Override
     public void keyTyped(KeyEvent e) { }
 
     @Override

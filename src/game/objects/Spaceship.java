@@ -1,7 +1,5 @@
 package game.objects;
 
-import game.view.GameView;
-
 import java.awt.*;
 
 /**
@@ -52,17 +50,6 @@ public class Spaceship extends GameObject {
     @Override
     public void update(int timeDelta) {
         posX += dir * vx / 1000d * timeDelta;
-    }
-
-    @Override
-    public void draw(Graphics2D g2d, int canvasWidth, int canvasHeight) {
-        g2d.setColor(Color.RED);
-        g2d.fillOval(
-                toPixel(canvasWidth, posX),
-                toPixel(canvasHeight, posY),
-                toPixel(canvasWidth, SHIP_WIDTH),
-                toPixel(canvasHeight, SHIP_HEIGHT)
-        );
     }
 
 }

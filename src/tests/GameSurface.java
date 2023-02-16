@@ -16,6 +16,8 @@ public class GameSurface extends JPanel {
 
     public GameSurface() {
         super();
+        setSize(300, 300);
+        setPreferredSize(new Dimension(300, 300));
         Map<RenderingHints.Key, Object> hintsMap = Map.of(
                 RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON,
                 RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY
@@ -43,6 +45,8 @@ public class GameSurface extends JPanel {
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHints(renderingHints);
+        g2d.setColor(Color.ORANGE);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
         drawCircles(g2d);
         drawHud(g2d);
     }
@@ -63,6 +67,11 @@ public class GameSurface extends JPanel {
             at.rotate(Math.toRadians(deg));
             g2d.draw(at.createTransformedShape(e));
         }
+    }
+
+    public void setSize(int size) {
+      setSize(new Dimension(size, size));
+        setPreferredSize(new Dimension(size, size));
     }
 
 }

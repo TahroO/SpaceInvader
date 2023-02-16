@@ -1,5 +1,7 @@
 package game;
 
+import game.view.GameFrame;
+import game.view.GamePanel;
 import game.view.GameView;
 
 import javax.swing.*;
@@ -10,13 +12,16 @@ import javax.swing.*;
 public class SpaceInvaders {
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Space Invaders");
-        frame.setSize(GameView.WIDTH, GameView.HEIGHT);
-        GameController gameController = new GameController();
+        GameFrame frame = new GameFrame("Space Invaders");
+        frame.setSize(GamePanel.WIDTH, GamePanel.HEIGHT);
+        GamePanel view = new GamePanel();
+        view.addKeyListener(frame);
+        GameController gameController = new GameController(view);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(gameController.getView());
+        frame.add(view);
+        frame.pack();;
         frame.setLocation(100, 100);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setVisible(true);
         gameController.init();
     }

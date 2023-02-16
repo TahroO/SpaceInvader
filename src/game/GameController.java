@@ -1,10 +1,7 @@
 package game;
 
-import game.objects.Alien;
-import game.objects.Bullet;
-import game.objects.Gun;
-import game.objects.Spaceship;
-import game.view.GameView;
+import game.objects.*;
+import game.view.GamePanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 public class GameController implements KeyListener, ActionListener {
@@ -22,11 +20,11 @@ public class GameController implements KeyListener, ActionListener {
     private final int DELAY = 16;
     private Timer timer;
     private final Random rng = new Random();
-    private final GameView view;
+    private final GamePanel view;
 
     // Game objects.
-    private final ArrayList<Renderable> renderables;
-    private final ArrayList<Alien> aliens = new ArrayList<>();
+    private final List<Renderable> renderables;
+    private final List<Alien> aliens = new ArrayList<>();
     private final Gun gun;
     //private final GameHud hud;
     private Bullet bullet;
@@ -45,9 +43,9 @@ public class GameController implements KeyListener, ActionListener {
     /**
      * Creates a new GameController instance.
      */
-    public GameController() {
-        renderables = new ArrayList<>();
-        view = new GameView(renderables);
+    public GameController(GamePanel view) {
+        renderables = view.getRenderables();
+        this.view = view;
         gun = new Gun();
         //hud = new GameHud();
         renderables.add(gun);
@@ -68,7 +66,7 @@ public class GameController implements KeyListener, ActionListener {
         timer.start();
         view.init();
         //hud.setRound(round);
-        view.setOverlay(GameView.OVERLAY_START);
+        view.setOverlay(GamePanel.OVERLAY_START);
     }
 
     /**
@@ -109,7 +107,7 @@ public class GameController implements KeyListener, ActionListener {
      * Gets the current game view.
      * @return A game view object.
      */
-    public GameView getView() {
+    public GamePanel getView() {
         return view;
     }
 
@@ -253,14 +251,14 @@ public class GameController implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (pause) {
+        if (pause && e.getKeyCode() != KeyEvent.VK_F11) {
             pause = false;
-            view.setOverlay(GameView.OVERLAY_NONE);
+            view.setOverlay(GamePanel.OVERLAY_NONE);
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             spacePressed = true;
         } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             pause = true;
-            view.setOverlay(GameView.OVERLAY_PAUSE);
+            view.setOverlay(GamePanel.OVERLAY_PAUSE);
         }
     }
 

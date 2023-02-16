@@ -1,7 +1,5 @@
 package game.objects;
 
-import game.Renderable;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -55,10 +53,7 @@ abstract public class GameObject implements Renderable {
         return posY;
     }
 
-    /**
-     * Gets this game object's bounds.
-     * @return Game object's bounds.
-     */
+    @Override
     public Rectangle2D.Double getBounds() {
         bounds.setRect(posX, posY, width, height);
         return bounds;

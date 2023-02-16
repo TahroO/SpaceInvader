@@ -1,6 +1,5 @@
 package game.objects;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,6 +11,7 @@ public class Alien extends GameObject {
     public static final double ALIEN_HEIGHT = 0.043023256;
     public static final double ALIEN_SPACING = 0.013953488;
 
+    private Position alienType;
     private int dir = 1;
     private double vx;
     private long timePassed;
@@ -22,8 +22,9 @@ public class Alien extends GameObject {
      * @param x X-position (in px) on panel.
      * @param y Y-position (in px) on panel.
      */
-    public Alien(double x, double y) {
+    public Alien(double x, double y, Position type) {
         super(x, y, ALIEN_WIDTH, ALIEN_HEIGHT);
+        alienType = type;
     }
 
     /**
@@ -40,6 +41,14 @@ public class Alien extends GameObject {
      */
     public void setVelocity(double vx) {
         this.vx = vx;
+    }
+
+    /**
+     * ...
+     * @return
+     */
+    public Position getPosition() {
+        return alienType;
     }
 
     /**
@@ -72,9 +81,15 @@ public class Alien extends GameObject {
         Collection<Alien> aliens = new ArrayList<>();
         for (int row = 0; row < rows; row++) {
             double y = marginTop + row * rowHeight;
+            Position position = Position.TOP;
+            if (row > 0 && row < 3) {
+                position = Position.MIDDLE;
+            } else if (row >= 3) {
+                position = Position.BOTTOM;
+            }
             for (int col = 0; col < cols; col++) {
                 double x = margin + col * stride;
-                aliens.add(new Alien(x, y));
+                aliens.add(new Alien(x, y, position));
             }
         }
         return aliens;
@@ -91,15 +106,9 @@ public class Alien extends GameObject {
         }
     }
 
-    @Override
-    public void draw(Graphics2D g2d, int canvasWidth, int canvasHeight) {
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(
-                toPixel(canvasWidth, posX),
-                toPixel(canvasWidth, posY),
-                toPixel(canvasWidth, width),
-                toPixel(canvasWidth, height)
-        );
+    public enum Position {
+        TOP,
+        MIDDLE,
+        BOTTOM
     }
-
 }
