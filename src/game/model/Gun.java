@@ -1,4 +1,4 @@
-package game.objects;
+package game.model;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

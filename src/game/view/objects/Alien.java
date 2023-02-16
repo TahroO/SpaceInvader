@@ -1,6 +1,6 @@
 package game.view.objects;
 
-import game.objects.Renderable;
+import game.model.Renderable;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -13,7 +13,7 @@ public class Alien extends DrawableBase {
     @Override
     public void draw(Graphics2D g2d, Renderable gameObject, int offsetX, int offsetY, int scale) {
         Rectangle2D.Double bounds = gameObject.getBounds();
-        game.objects.Alien alien = (game.objects.Alien) gameObject;
+        game.model.Alien alien = (game.model.Alien) gameObject;
         Color color = switch (alien.getPosition()) {
             case TOP -> Color.PINK;
             case MIDDLE -> Color.BLUE;

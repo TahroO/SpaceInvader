@@ -1,6 +1,5 @@
-package game.objects;
+package game.model;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -19,5 +18,7 @@ public interface Renderable {
      * @return Game object's bounds.
      */
     Rectangle2D.Double getBounds();
+
+    boolean isDead();
 
 }

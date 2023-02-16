@@ -1,6 +1,4 @@
-package game.objects;
-
-import java.awt.*;
+package game.model;
 
 /**
  * Represents a spaceship.
