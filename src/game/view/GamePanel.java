@@ -40,6 +40,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
     public Font largeFont;
     public Font boldFont;
 
+    private int points;
+    private int round;
+
     private ArrayList<Renderable> renderables = new ArrayList<>();
 
     /**
@@ -53,6 +56,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         setBackground(new Color(30, 30, 30));
         setFocusable(true);
         setDoubleBuffered(true);
+        points = 0;
+        round = 0;
         // Create rendering hints.
         Map<RenderingHints.Key, Object> hintsMap = Map.of(
                 RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON,
@@ -142,14 +147,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         }
     }
 
-    private void drawTopHud(Graphics2D g2d, int offsetX, int offsetY, int widht, int height) {
+    private void drawTopHud(Graphics2D g2d, int offsetX, int offsetY, int width, int height) {
         g2d.setColor(Color.GRAY);
-        g2d.fillRect(offsetX, offsetY, widht, height);
+        g2d.fillRect(offsetX, offsetY, width, height);
+        String pointCounter = "Points: " + points;
+        g2d.setFont(boldFont);
+        g2d.setColor(Color.CYAN);
+        g2d.drawString(pointCounter, offsetX + 100, offsetY + 100);
     }
 
-    private void drawBottomHud(Graphics2D g2d, int offsetX, int offsetY, int widht, int height) {
+    private void drawBottomHud(Graphics2D g2d, int offsetX, int offsetY, int width, int height) {
         g2d.setColor(Color.GRAY);
-        g2d.fillRect(offsetX, offsetY, widht, height);
+        g2d.fillRect(offsetX, offsetY, width, height);
     }
 
     private void drawGame(Graphics2D g2d, int offsetX, int offsetY, int scale) {
@@ -164,6 +173,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         }
     }
 
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
     @Override
     public void setOverlay(int overlay) {
         this.overlay = overlay > 0 ? overlays.get(overlay) : null;
