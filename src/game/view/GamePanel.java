@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
     private ArrayList<Model> renderables = new ArrayList<>();
     private int points;
     private int round;
-    private HudTop counter;
+    private HudTop topHud;
 
     /**
      * Creates a new GameView instance.
@@ -75,7 +75,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
             overlays.put(OVERLAY_START, new StartScreen(uniFont));
             overlays.put(OVERLAY_PAUSE, new PauseScreen(uniFont));
             overlays.put(OVERLAY_GAME_OVER, new GameOverScreen(uniFont));
-            counter = new HudTop(uniFont);
+            topHud = new HudTop(uniFont);
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -95,8 +95,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
         g2d.setFont(font);
         g2d.setRenderingHints(renderingHints);
 
-        g2d.setColor(Color.ORANGE);
-        g2d.fillRect(0, 0, getWidth(), getHeight());
+//        g2d.setColor(Color.ORANGE);
+//        g2d.fillRect(0, 0, getWidth(), getHeight());
 
         double componentWidth = getWidth();
         double componentHeight = getHeight();
@@ -142,8 +142,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
     }
 
     private void drawTopHud(Graphics2D g2d, int offsetX, int offsetY, int gameSize, int height) {
-        if (counter != null) {
-            counter.draw(g2d, offsetX, 0, gameSize);
+        if (topHud != null) {
+            topHud.draw(g2d, offsetX, offsetY, gameSize);
         }
     }
 
@@ -166,13 +166,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
 
     public void setPoints(int points) {
         this.points = points;
-        this.counter.setPoints(points);
-        System.out.println("Points: " + points);
+        this.topHud.setPoints(points);
+    }
+
+    public void setLife(int life) {
+        this.topHud.setLife(life);
     }
 
     public void setRound(int round) {
-        this.round = round;
+        this.topHud.setRound(round);
     }
+
     @Override
     public void setOverlay(int overlay) {
         this.overlay = overlay > 0 ? overlays.get(overlay) : null;

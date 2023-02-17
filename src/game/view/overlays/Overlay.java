@@ -21,20 +21,22 @@ abstract public class Overlay {
     }
 
     protected void drawBackground(Graphics2D g2d, int offsetX, int offsetY, int gameSize) {
-        g2d.setColor(Color.GREEN);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+        g2d.setColor(Color.BLACK);
+        Composite oldComposite = g2d.getComposite();
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
         g2d.fillRect(offsetX, offsetY, gameSize, gameSize);
+        g2d.setComposite(oldComposite);
     }
 
     protected void drawString(Graphics2D g2d, String screenText, int posX, int posY, int offsetX, int offsetY, int gameSize) {
-        AffineTransform tx1 = new AffineTransform();
+        AffineTransform transform = new AffineTransform();
         double scaleFactor = gameSize / 800d;
         double translationX = offsetX * (1d / scaleFactor - 1d);
         double translationY = offsetY * (1d / scaleFactor - 1d);
-        tx1.scale(scaleFactor, scaleFactor);
-        tx1.translate(translationX, translationY);
+        transform.scale(scaleFactor, scaleFactor);
+        transform.translate(translationX, translationY);
         AffineTransform oldTransform = g2d.getTransform();
-        g2d.setTransform(tx1);
+        g2d.setTransform(transform);
         g2d.setColor(Color.CYAN);
         g2d.drawString(screenText, posX + offsetX, posY + offsetY);
         g2d.setTransform(oldTransform);

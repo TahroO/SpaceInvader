@@ -4,15 +4,13 @@ import game.model.*;
 import game.view.GamePanel;
 import game.view.GameView;
 
-import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.awt.geom.Rectangle2D;
+import java.util.*;
 
 public class GameController implements KeyListener, ActionListener {
     public static final int ROWS = 5;
@@ -28,14 +26,17 @@ public class GameController implements KeyListener, ActionListener {
     private final List<Alien> aliens = new ArrayList<>();
     private final Gun gun;
     //private final GameHud hud;
-    private Bullet bullet;
+    private Bullet gunBullet;
+    private List<Bullet> alienBullets = new ArrayList<>();
     private Spaceship ship;
 
     // Game state.
     private boolean pause = true;
     private int round = 1;
+    private int life = 3;
     private int points;
     private long nextShipTimeMs;
+    private long nextAlienBulletTimeMs;
     private long lastFrameTimeMs;
     private boolean spacePressed;
 
@@ -48,9 +49,7 @@ public class GameController implements KeyListener, ActionListener {
         renderables = view.getRenderables();
         this.view = view;
         gun = new Gun();
-        //hud = new GameHud();
         renderables.add(gun);
-        //renderables.add(hud);
         createAlienGang();
         setNextShipTime();
         lastFrameTimeMs = System.currentTimeMillis();
@@ -66,7 +65,8 @@ public class GameController implements KeyListener, ActionListener {
         timer.addActionListener(view);
         timer.start();
         view.init();
-        //hud.setRound(round);
+        view.setLife(life);
+        view.setRound(round);
         view.setOverlay(GamePanel.OVERLAY_START);
     }
 
@@ -82,6 +82,7 @@ public class GameController implements KeyListener, ActionListener {
 
     /**
      * Calculates alien velocity.
+     *
      * @param alienCount Number of aliens alive.
      * @return Alien velocity.
      */
@@ -96,8 +97,8 @@ public class GameController implements KeyListener, ActionListener {
      */
     private void updateAlienVelocity() {
         // TODO scale vx with number of rounds played.
-        double alienVx = getAlienVelocity(aliens.size());
-        double stepsPerSecond = 200 * alienVx;
+        double alienVx = getAlienVelocity(aliens.size()) * round * 0.5;
+        double stepsPerSecond = 150 * alienVx;
         aliens.forEach(alien -> {
             alien.setVelocity(alienVx);
             alien.setStepsPerSecond(stepsPerSecond);
@@ -106,6 +107,7 @@ public class GameController implements KeyListener, ActionListener {
 
     /**
      * Gets the current game view.
+     *
      * @return A game view object.
      */
     public GamePanel getView() {
@@ -125,14 +127,27 @@ public class GameController implements KeyListener, ActionListener {
     }
 
     /**
+     * Starts a new spaceship.
+     */
+    private void startAlienBullet(Alien alien) {
+        Rectangle2D.Double bounds = alien.getBounds();
+        double bulletX = bounds.x + bounds.width / 2d;
+        double bulletY = bounds.y + bounds.height;
+        Bullet alienBullet = new Bullet(bulletX, bulletY, 1);
+        alienBullet.setVy(0.2);
+        alienBullets.add(alienBullet);
+        renderables.add(alienBullet);
+    }
+
+    /**
      * Updates all game objects.
      */
     private void update() {
         long currentTimeMs = System.currentTimeMillis();
         int lastFrameDelta = (int) (currentTimeMs - lastFrameTimeMs);
         if (!pause) {
-            updateBullet();
-            updateAliens();
+            updateBullets();
+            updateAliens(currentTimeMs);
             // TODO update in reverse order?
             renderables.forEach(renderable -> renderable.update(lastFrameDelta));
             updateSpaceShip(currentTimeMs);
@@ -142,17 +157,19 @@ public class GameController implements KeyListener, ActionListener {
                 nextRound();
             }
         }
-        //hud.update(lastFrameDelta);
         lastFrameTimeMs = currentTimeMs;
-        //view.setOverlay(GameView.OVERLAY_COUNTER);
     }
 
     /**
      * Updates the alien gang (switches direction).
      */
-    private void updateAliens() {
+    private void updateAliens(long currentTimeMs) {
         double edgeRight = 1 - 0.065116279;
         double edgeLeft = 0.065116279;
+        if (currentTimeMs >= nextAlienBulletTimeMs) {
+            startAlienBullet(aliens.get(rng.nextInt(0, aliens.size())));
+            setNextAlienBulletTime();
+        }
         for (Alien alien : aliens) {
             if (alien.getDir() == 1 && alien.getX() + Alien.ALIEN_WIDTH >= edgeRight
                     || alien.getDir() == -1 && alien.getX() <= edgeLeft) {
@@ -165,21 +182,31 @@ public class GameController implements KeyListener, ActionListener {
     /**
      * Updates player bullet.
      */
-    private void updateBullet() {
+    private void updateBullets() {
         // TODO a game object can now determine on its own, if it has left the view.
         // TODO move to Bullet.java.
-        if (bullet == null && spacePressed) {
-            bullet = new Bullet(gun.getX() + (Gun.GUN_WIDTH - Bullet.BULLET_WITH) / 2, gun.getY() - Bullet.BULLET_HEIGHT);
-            renderables.add(bullet);
+        if (gunBullet == null && spacePressed) {
+            gunBullet = new Bullet(gun.getX() + (Gun.GUN_WIDTH - Bullet.BULLET_WITH) / 2, gun.getY() - Bullet.BULLET_HEIGHT);
+            renderables.add(gunBullet);
         }
-        if (bullet != null && bullet.getY() < 0) {
-            renderables.remove(bullet);
-            bullet = null;
+        if (gunBullet != null && gunBullet.getY() < 0) {
+            renderables.remove(gunBullet);
+            gunBullet = null;
+        }
+
+        Iterator<Bullet> i = alienBullets.listIterator();
+        while (i.hasNext()) {
+            Bullet alienBullet = i.next();
+            if (alienBullet.getY() > 1) {
+                renderables.remove(alienBullet);
+                i.remove();
+            }
         }
     }
 
     /**
      * Updates the space ship.
+     *
      * @param currentTimeMs
      */
     private void updateSpaceShip(long currentTimeMs) {
@@ -206,39 +233,56 @@ public class GameController implements KeyListener, ActionListener {
      */
     private void nextRound() {
         round += 1;
+        view.setRound(round);
         createAlienGang();
-        //hud.setRound(round);
     }
 
     /**
      * Detects collision of game objects.
      */
     private void detectCollisions() {
-        if (bullet == null) {
-            return;
-        }
-        // Check alien collision with bullet.
-        for (Alien alien : aliens) {
-            if (alien.detectCollision(bullet)) {
-                renderables.remove(bullet);
-                renderables.remove(alien);
-                aliens.remove(alien);
-                points += alien.getPoints();
-                bullet = null;
-                view.setPoints(points);
-                updateAlienVelocity();
-                break;
+        if (gunBullet != null) {
+            // Check alien collision with bullet.
+            for (Alien alien : aliens) {
+                if (alien.detectCollision(gunBullet)) {
+                    renderables.remove(gunBullet);
+                    renderables.remove(alien);
+                    aliens.remove(alien);
+                    points += alien.getPoints();
+                    gunBullet = null;
+                    view.setPoints(points);
+                    updateAlienVelocity();
+                    break;
+                }
             }
         }
+
         // Check ship collision with bullet.
-        if (ship != null && bullet != null && ship.detectCollision(bullet)) {
+        if (gunBullet != null && ship != null && ship.detectCollision(gunBullet)) {
             renderables.remove(ship);
-            renderables.remove(bullet);
+            renderables.remove(gunBullet);
             points += ship.getPoints();
-            bullet = null;
+            gunBullet = null;
             ship = null;
             view.setPoints(points);
             setNextShipTime();
+        }
+
+        // Alien bullet collision with gun.
+        Iterator<Bullet> i = alienBullets.listIterator();
+        while (i.hasNext()) {
+            Bullet alienBullet = i.next();
+            if (gun.detectCollision(alienBullet)) {
+                renderables.remove(alienBullet);
+                i.remove();
+                life -= 1;
+                view.setLife(life);
+            }
+        }
+
+        if (life == 0) {
+            view.setOverlay(GameView.OVERLAY_GAME_OVER);
+            pause = true;
         }
     }
 
@@ -247,6 +291,13 @@ public class GameController implements KeyListener, ActionListener {
      */
     private void setNextShipTime() {
         this.nextShipTimeMs = System.currentTimeMillis() + rng.nextLong(10000, 20001);
+    }
+
+    /**
+     * Calculates and sets the next spawn time of a spaceship.
+     */
+    private void setNextAlienBulletTime() {
+        this.nextAlienBulletTimeMs = System.currentTimeMillis() + rng.nextLong(1000, 5001);
     }
 
     @Override
