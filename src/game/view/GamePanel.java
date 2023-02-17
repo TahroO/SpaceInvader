@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import game.view.objects.Spaceship;
+import game.view.objects.Gun;
 
 /**
  * Game view takes care of drawing everything.
@@ -129,6 +131,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
     private void drawGameObject(Graphics2D g2d, Model gameObject, int offsetX, int offsetY, int scale) {
         if (gameObject instanceof game.model.Alien) {
             Alien.getInstance().draw(g2d, gameObject, offsetX, offsetY, scale);
+        } else if (gameObject instanceof game.model.Spaceship) {
+            Spaceship.getInstance().draw(g2d, gameObject, offsetX, offsetY, scale);
+        } else if (gameObject instanceof game.model.Gun) {
+            Gun.getInstance().draw(g2d, gameObject, offsetX, offsetY, scale);
         } else {
             g2d.setColor(Color.WHITE);
             Rectangle2D.Double bounds = gameObject.getBounds();

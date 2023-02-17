@@ -52,7 +52,7 @@ public class GameController implements KeyListener, ActionListener {
         renderables.add(gun);
         //renderables.add(hud);
         createAlienGang();
-        setNextShipTime();
+        //setNextShipTime();
         lastFrameTimeMs = System.currentTimeMillis();
     }
 
