@@ -31,16 +31,24 @@ public class Alien extends DrawableBase {
             default -> Color.WHITE;
         };
         g2d.setColor(color);
-        g2d.fillRect(
-                toPixel(scale, bounds.x) + offsetX,
-                toPixel(scale, bounds.y) + offsetY,
-                toPixel(scale, bounds.width),
-                toPixel(scale, bounds.height)
-        );
+        int width = toPixel(scale, bounds.width);
+        int height = toPixel(scale, bounds.height);
+        drawMatrix(g2d, g, width, height, toPixel(scale, bounds.x) + offsetX, toPixel(scale, bounds.y) + offsetY);
     }
 
-    public void  drawMatrix(int[][] matrix) {
-
+    public void  drawMatrix(Graphics2D g2d, int[][] matrix, int width, int height, int offsetX, int offsetY) {
+        int cellHeight = height / matrix.length;
+        for (int row = 0; row < matrix.length; row++) {
+            int[] rowData = matrix[row];
+            int cellWidth = width / rowData.length;
+            int y = row * cellHeight + offsetY;
+            for (int col = 0; col < rowData.length; col++) {
+                int x = col * cellWidth + offsetX;
+                if (rowData[col] == 1) {
+                    g2d.fillRect(x, y, cellWidth, cellHeight);
+                }
+            }
+        }
     }
 
     public static Alien getInstance() {

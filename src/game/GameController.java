@@ -97,7 +97,7 @@ public class GameController implements KeyListener, ActionListener {
     private void updateAlienVelocity() {
         // TODO scale vx with number of rounds played.
         double alienVx = getAlienVelocity(aliens.size());
-        double stepsPerSecond = 1;
+        double stepsPerSecond = 200 * alienVx;
         aliens.forEach(alien -> {
             alien.setVelocity(alienVx);
             alien.setStepsPerSecond(stepsPerSecond);

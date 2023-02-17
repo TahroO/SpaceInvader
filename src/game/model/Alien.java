@@ -109,7 +109,7 @@ public class Alien extends ModelBase {
     public void update(int timeDelta) {
         timePassed += timeDelta;
         if (timePassed >= 1000d / stepsPerSecond) {
-            double stride = vx * stepsPerSecond;
+            double stride = vx / stepsPerSecond;
             posX += dir * stride;
             timePassed = (int) (timePassed - 1000d / stepsPerSecond);
         }

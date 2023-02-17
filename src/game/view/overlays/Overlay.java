@@ -36,13 +36,13 @@ abstract public class Overlay {
         AffineTransform oldTransform = g2d.getTransform();
         g2d.setTransform(tx1);
         g2d.setColor(Color.CYAN);
-        g2d.drawString(screenText, posX, posY);
+        g2d.drawString(screenText, posX + offsetX, posY + offsetY);
         g2d.setTransform(oldTransform);
     }
 
    protected void drawStringCenter(Graphics2D g2d, String screenText, int posY, int offsetX, int offsetY, int gameSize) {
         int length = g2d.getFontMetrics().stringWidth(screenText);
-        int posX = (int) Math.round((800 / 2d) - (length / 2d) + offsetX);
+        int posX = (int) Math.round((800 / 2d) - (length / 2d));
         drawString(g2d, screenText, posX, posY, offsetX, offsetY, gameSize);
     }
 }

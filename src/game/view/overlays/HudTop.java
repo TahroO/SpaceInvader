@@ -13,12 +13,12 @@ public class HudTop extends Overlay {
         String counter = "Points: " + points + "Life: " + life;
         g2d.setColor(Color.blue);
         g2d.setFont(boldFont);
-        drawString(g2d, counter, 10, 100,  offsetX, 0, gameSize);
+        drawString(g2d, counter, 5, 125,  offsetX, offsetY, gameSize);
     }
-    private void setPoints(int points) {
+    public void setPoints(int points) {
         this.points = points;
     }
-    private void setLife(int life) {
+    public void setLife(int life) {
         this.life = life;
     }
 }

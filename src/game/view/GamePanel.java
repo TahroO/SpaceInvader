@@ -166,6 +166,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Ga
 
     public void setPoints(int points) {
         this.points = points;
+        this.counter.setPoints(points);
         System.out.println("Points: " + points);
     }
 
